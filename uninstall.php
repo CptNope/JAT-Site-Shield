@@ -22,7 +22,7 @@ function jatss_uninstall_site() {
 
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}jatss_events" ); // phpcs:ignore WordPress.DB
 
-	foreach ( array( 'jatss_settings', 'jatss_db_version', 'jatss_lockouts', 'jatss_fim_state', 'jatss_fim_last', 'jatss_fim_ack', 'jatss_fim_baseline', 'jatss_fim_rebase', 'jatss_uploads_test' ) as $option ) {
+	foreach ( array( 'jatss_settings', 'jatss_db_version', 'jatss_lockouts', 'jatss_fim_state', 'jatss_fim_last', 'jatss_fim_ack', 'jatss_fim_baseline', 'jatss_fim_rebase', 'jatss_uploads_test', 'jatss_legacy_migrated' ) as $option ) {
 		delete_option( $option );
 	}
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'jatss\\_2fa\\_lock\\_%' OR option_name LIKE '\\_transient\\_jatss\\_%' OR option_name LIKE '\\_transient\\_timeout\\_jatss\\_%' OR option_name LIKE '\\_site\\_transient\\_jatss\\_%' OR option_name LIKE '\\_site\\_transient\\_timeout\\_jatss\\_%'" ); // phpcs:ignore WordPress.DB

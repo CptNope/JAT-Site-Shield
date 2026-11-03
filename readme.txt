@@ -4,7 +4,7 @@ Tags: security, two-factor, login security, hardening, activity log
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,10 @@ Recommended next steps:
 * Optional: put the site behind Cloudflare's free plan with the [free Cloudflare setup guide](https://github.com/CptNope/JAT-Site-Shield/blob/main/docs/cloudflare.md).
 
 == Frequently Asked Questions ==
+
+= I used Anderson Site Shield. How do I switch? =
+
+Install and activate JAT Site Shield while Anderson Site Shield is still installed. It copies your settings, custom login address, two-factor setup, backup codes and activity log, keeps you logged in, and turns Anderson Site Shield off. Nobody has to set up two-factor again. Check the activity log for the "Moved settings" entry, then delete Anderson Site Shield from the Plugins screen; that removes its old data and its key file.
 
 = I'm locked out. How do I get back in? =
 
@@ -165,6 +169,10 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 
 == Changelog ==
 
+= 1.1.0 =
+* New: sites that ran Anderson Site Shield, this plugin's name before 1.0, are moved over automatically on activation. Settings (including the custom login address), two-factor enrolment and backup codes, current login sessions and the activity log come across, and Anderson Site Shield is turned off. Two-factor secrets are re-encrypted with this plugin's key, so nobody has to set up two-factor again.
+* The file integrity scan no longer flags Anderson Site Shield's key file, wp-content/anshield-key.php.
+
 = 1.0.2 =
 * Release prepared for the WordPress.org plugin directory. No changes to how the plugin works since 1.0.1.
 * Updated documentation, support links and the bug report form.
@@ -177,6 +185,9 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 * First release: login lockouts, generic login errors, custom login address, two-factor authentication with backup codes, hardening, activity log, email alerts, file integrity scanning and WP-CLI commands.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Moves sites from Anderson Site Shield automatically, keeping two-factor, settings and the activity log.
 
 = 1.0.2 =
 Documentation only. Includes the 1.0.1 fix that restores the QR code on the two-factor setup screen.

@@ -78,6 +78,8 @@ By [Jeremy Anderson Tech](https://jeremyanderson.tech/) · Pairs with [JAT Shell
 
 Updates come through the WordPress.org plugin directory like any other plugin.
 
+**Coming from Anderson Site Shield?** That was this plugin's name before 1.0. Activate JAT Site Shield while the old plugin is still installed: settings, the custom login address, two-factor enrolment and backup codes, current login sessions and the activity log move over, two-factor secrets are re-encrypted with the new key, and Anderson Site Shield is turned off. Then delete Anderson Site Shield to remove its old data.
+
 ## Recommended setup for a client site
 
 1. Activate and enroll in two-factor yourself.
