@@ -2,6 +2,14 @@
 
 All notable changes to JAT Site Shield. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin uses [semantic versioning](https://semver.org/). The WordPress.org changelog in [readme.txt](readme.txt) is a shorter version of this file.
 
+## [1.1.0]: 2026-11-02
+
+### Added
+- Automatic move from Anderson Site Shield, this plugin's name before 1.0. On activation (or the next dashboard visit if the plugin was replaced without activating), JAT Site Shield copies the settings, including the custom login address; two-factor enrolment and backup codes; the "passed two-factor" mark on current login sessions, so nobody is logged out or flagged; the lockout list and file integrity baseline; and the activity log. It then turns Anderson Site Shield off. Two-factor secrets are decrypted with the old key and encrypted again with this plugin's key, because the rename changed how the key is derived. Users whose secret can't be decrypted are listed in the migration record and logged as a warning. The move runs once and is recorded in the `jatss_legacy_migrated` option.
+
+### Changed
+- The file integrity scan no longer flags `wp-content/anshield-key.php`, Anderson Site Shield's key file, as a stray PHP file. Deleting Anderson Site Shield removes it.
+
 ## [1.0.2]: 2026-10-30
 
 The release submitted to the WordPress.org plugin directory. The plugin works exactly as in 1.0.1.

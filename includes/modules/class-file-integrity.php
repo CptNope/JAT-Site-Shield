@@ -876,7 +876,7 @@ class File_Integrity {
 	 *
 	 * @var string[]
 	 */
-	const CONTENT_ALLOWED = array( 'index.php', 'advanced-cache.php', 'object-cache.php', 'db.php', 'db-error.php', 'install.php', 'maintenance.php', 'php-error.php', 'fatal-error-handler.php', 'sunrise.php', 'blog-deleted.php', 'blog-inactive.php', 'blog-suspended.php', 'jatss-key.php' );
+	const CONTENT_ALLOWED = array( 'index.php', 'advanced-cache.php', 'object-cache.php', 'db.php', 'db-error.php', 'install.php', 'maintenance.php', 'php-error.php', 'fatal-error-handler.php', 'sunrise.php', 'blog-deleted.php', 'blog-inactive.php', 'blog-suspended.php', 'jatss-key.php', 'anshield-key.php' );
 
 	/**
 	 * PHP files directly in wp-content that aren't known drop-ins.
