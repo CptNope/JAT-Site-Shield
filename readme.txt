@@ -139,6 +139,10 @@ No. Nothing heavy runs on page loads. The file integrity scan runs once a day in
 
 No. See "External services" below for the only outside requests it makes.
 
+= Is it available in other languages? =
+
+Yes. Every message is translatable, and a Spanish (es_ES) translation is included. Choose the language under Settings, then General, then Site Language.
+
 = Where do I report a bug? =
 
 Use the [support forum](https://wordpress.org/support/plugin/jat-site-shield/). Security problems in the plugin itself: please report them privately through [GitHub](https://github.com/CptNope/JAT-Site-Shield/security/advisories/new).
