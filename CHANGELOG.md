@@ -2,6 +2,14 @@
 
 All notable changes to JAT Site Shield. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin uses [semantic versioning](https://semver.org/). The WordPress.org changelog in [readme.txt](readme.txt) is a shorter version of this file.
 
+## [Unreleased]
+
+### Added
+- Spanish (es_ES) translation, bundled in `languages/`. WordPress loads it through the new `Domain Path` plugin header.
+
+### Changed
+- Event severity labels (Info, Notice, Warning, Critical) and relative times ("%s ago") now go through the translation functions. English output is unchanged.
+
 ## [1.1.0]: 2026-11-02
 
 ### Added
