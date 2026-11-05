@@ -69,6 +69,7 @@ By [Jeremy Anderson Tech](https://jeremyanderson.tech/) · Pairs with [JAT Shell
 - WordPress 6.4 or newer
 - PHP 7.4 to 8.4 (tested in CI on 7.4, 8.0, 8.1, 8.2, 8.3 and 8.4)
 - Single sites. Multisite works, but the custom login address is turned off there.
+- Languages: English, plus a Spanish (es_ES) translation.
 
 ## Install
 

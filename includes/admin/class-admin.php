@@ -420,7 +420,7 @@ class Admin {
 					<?php else : ?>
 						<ul class="jatss-events">
 							<?php foreach ( $recent['rows'] as $e ) : ?>
-								<li class="jatss-s-<?php echo esc_attr( $e['severity'] ); ?>"><span class="jatss-sev jatss-sev-<?php echo esc_attr( $e['severity'] ); ?>"><?php echo esc_html( ucfirst( $e['severity'] ) ); ?></span> <?php echo esc_html( $e['message'] ); ?> <span class="description"><?php echo esc_html( human_time_diff( strtotime( $e['created_at'] . ' UTC' ) ) ); ?> <?php esc_html_e( 'ago', 'jat-site-shield' ); ?></span></li>
+								<li class="jatss-s-<?php echo esc_attr( $e['severity'] ); ?>"><span class="jatss-sev jatss-sev-<?php echo esc_attr( $e['severity'] ); ?>"><?php echo esc_html( self::severity_label( $e['severity'] ) ); ?></span> <?php echo esc_html( $e['message'] ); ?> <span class="description"><?php /* translators: %s: time */ echo esc_html( sprintf( __( '%s ago', 'jat-site-shield' ), human_time_diff( strtotime( $e['created_at'] . ' UTC' ) ) ) ); ?></span></li>
 							<?php endforeach; ?>
 						</ul>
 						<p><a href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::SLUG . '-log' ) ); ?>"><?php esc_html_e( 'Full activity log', 'jat-site-shield' ); ?></a></p>
@@ -575,7 +575,7 @@ class Admin {
 				<option value=""><?php esc_html_e( 'Any severity', 'jat-site-shield' ); ?></option>
 				<?php foreach ( array( 'notice', 'warning', 'critical' ) as $sev ) : ?>
 					<?php /* translators: %s: severity */ ?>
-					<option value="<?php echo esc_attr( $sev ); ?>" <?php selected( $severity, $sev ); ?>><?php echo esc_html( sprintf( __( '%s and above', 'jat-site-shield' ), ucfirst( $sev ) ) ); ?></option>
+					<option value="<?php echo esc_attr( $sev ); ?>" <?php selected( $severity, $sev ); ?>><?php echo esc_html( sprintf( __( '%s and above', 'jat-site-shield' ), self::severity_label( $sev ) ) ); ?></option>
 				<?php endforeach; ?>
 			</select>
 			<label class="screen-reader-text" for="jatss-type"><?php esc_html_e( 'Event type', 'jat-site-shield' ); ?></label>
@@ -611,7 +611,7 @@ class Admin {
 			<?php foreach ( $result['rows'] as $e ) : ?>
 				<tr class="jatss-s-<?php echo esc_attr( $e['severity'] ); ?>">
 					<td class="jatss-nowrap" title="<?php echo esc_attr( $e['created_at'] . ' UTC' ); ?>"><?php echo esc_html( get_date_from_gmt( $e['created_at'], 'M j, H:i:s' ) ); ?></td>
-					<td><span class="jatss-sev jatss-sev-<?php echo esc_attr( $e['severity'] ); ?>"><?php echo esc_html( ucfirst( $e['severity'] ) ); ?></span></td>
+					<td><span class="jatss-sev jatss-sev-<?php echo esc_attr( $e['severity'] ); ?>"><?php echo esc_html( self::severity_label( $e['severity'] ) ); ?></span></td>
 					<td><?php echo esc_html( $e['message'] ); ?><br /><code class="jatss-type"><?php echo esc_html( $e['event_type'] ); ?></code></td>
 					<td><?php echo '' !== $e['username'] ? esc_html( $e['username'] ) : '&mdash;'; ?></td>
 					<td><code><?php echo esc_html( $e['ip'] ); ?></code></td>
@@ -740,7 +740,7 @@ class Admin {
 			<tbody>
 			<?php foreach ( array_slice( $findings, 0, 500 ) as $f ) : ?>
 				<tr class="jatss-s-<?php echo esc_attr( $f['severity'] ); ?>">
-					<td><span class="jatss-sev jatss-sev-<?php echo esc_attr( $f['severity'] ); ?>"><?php echo esc_html( ucfirst( $f['severity'] ) ); ?></span></td>
+					<td><span class="jatss-sev jatss-sev-<?php echo esc_attr( $f['severity'] ); ?>"><?php echo esc_html( self::severity_label( $f['severity'] ) ); ?></span></td>
 					<td><code><?php echo esc_html( $f['path'] ); ?></code><?php echo $f['detail'] ? '<br /><span class="description">' . esc_html( $f['detail'] ) . '</span>' : ''; ?></td>
 					<td><?php echo esc_html( File_Integrity::kind_label( $f['kind'], true ) ); ?></td>
 					<td class="jatss-nowrap"><?php echo $f['mtime'] ? esc_html( wp_date( 'M j Y, H:i', $f['mtime'] ) ) : '&mdash;'; ?></td>
@@ -1169,5 +1169,21 @@ class Admin {
 		}
 		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 		exit;
+	}
+
+	/**
+	 * Translated label for an event severity.
+	 *
+	 * @param string $severity Severity key.
+	 * @return string
+	 */
+	public static function severity_label( $severity ) {
+		$labels = array(
+			'info'     => __( 'Info', 'jat-site-shield' ),
+			'notice'   => __( 'Notice', 'jat-site-shield' ),
+			'warning'  => __( 'Warning', 'jat-site-shield' ),
+			'critical' => __( 'Critical', 'jat-site-shield' ),
+		);
+		return isset( $labels[ $severity ] ) ? $labels[ $severity ] : ucfirst( $severity );
 	}
 }

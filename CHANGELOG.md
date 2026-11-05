@@ -4,7 +4,10 @@ All notable changes to JAT Site Shield. The format follows [Keep a Changelog](ht
 
 ## [1.1.1]: 2026-11-04
 
-Changes requested in the WordPress.org plugin review.
+Changes requested in the WordPress.org plugin review, and a Spanish translation.
+
+### Added
+- Spanish (es_ES) translation, bundled in `languages/` (thanks to @CyberJean98). WordPress loads it through the new `Domain Path` plugin header.
 
 ### Changed
 - The two-factor encryption key is no longer written to `wp-content/jatss-key.php`. It is generated once and kept in a network option (`jatss_secret_key`), so it is shared by every site in a multisite network, like the users are. On sites that had the key file, its key is read as text (never run) and carried over, so every existing two-factor setup keeps working. `JATSS_SECRET_KEY` in `wp-config.php` still takes priority and keeps the key out of the database; secrets made with any earlier key are still read, and move to the current key at the user's next login. The overview check for the key is now optional.
@@ -12,6 +15,7 @@ Changes requested in the WordPress.org plugin review.
 - Anderson Site Shield's key file is read as text during the move instead of being included.
 - Every admin action calls `check_admin_referer()` directly after the capability check. Resetting another user's two-factor from their profile has its own nonce.
 - Uninstalling deletes the `jatss_secret_key` option, and the old key file if one is left.
+- Event severity labels (Info, Notice, Warning, Critical) and relative times ("%s ago") now go through the translation functions. English output is unchanged.
 
 ## [1.1.0]: 2026-11-02
 
