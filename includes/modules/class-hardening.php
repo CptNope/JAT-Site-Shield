@@ -230,44 +230,39 @@ class Hardening {
 	}
 
 	/**
-	 * Check from outside whether PHP in uploads is really blocked: writes a
-	 * harmless test file, requests it over HTTP, then deletes it.
+	 * Check from outside whether the server refuses PHP requests in uploads.
 	 *
-	 * @return string 'blocked' | 'executes' | 'unknown'
+	 * Nothing is written: the test asks for a random .php address in the
+	 * uploads folder that doesn't exist. A server that blocks PHP there
+	 * refuses the request (401 or 403) whether or not the file exists; one
+	 * that doesn't block it answers "Not Found", or passes the request on to
+	 * WordPress, which may redirect it.
+	 *
+	 * @return string 'blocked' | 'open' | 'unknown'
 	 */
 	public static function test_uploads_php() {
-		$uploads = wp_get_upload_dir();
-		$name    = 'jatss-test-' . wp_generate_password( 12, false ) . '.php';
-		$path    = trailingslashit( $uploads['basedir'] ) . $name;
-		$marker  = 'jatss-' . wp_generate_password( 16, false );
-
-		// The file only prints a marker; it reads no input. The marker is split in the
-		// source, so seeing it whole proves the PHP ran (not just that the source was served).
-		$half = (int) floor( strlen( $marker ) / 2 );
-		if ( false === file_put_contents( $path, '<?php echo "' . substr( $marker, 0, $half ) . '" . "' . substr( $marker, $half ) . '";' ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
-			return 'unknown';
-		}
+		$uploads  = wp_get_upload_dir();
+		$name     = 'jatss-probe-' . strtolower( wp_generate_password( 12, false ) ) . '.php';
 		$response = wp_remote_get(
 			trailingslashit( $uploads['baseurl'] ) . $name,
 			array(
-				'timeout'   => 8,
+				'timeout'     => 8,
+				'redirection' => 0,
 				/** This filter is documented in wp-includes/class-wp-http-streams.php (same as core's loopback checks). */
-				'sslverify' => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+				'sslverify'   => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 			)
 		);
-		wp_delete_file( $path );
-		if ( file_exists( $path ) ) {
-			Event_Log::log( 'harden.test_file_left', 'warning', sprintf( /* translators: %s: file */ __( 'Could not delete the uploads test file %s. Delete it by hand.', 'jat-site-shield' ), $name ) );
-		}
-
 		if ( is_wp_error( $response ) ) {
 			return 'unknown';
 		}
 		$code = (int) wp_remote_retrieve_response_code( $response );
-		$body = (string) wp_remote_retrieve_body( $response );
-		if ( false !== strpos( $body, $marker ) ) {
-			return 'executes';
+		if ( in_array( $code, array( 401, 403 ), true ) ) {
+			return 'blocked';
 		}
-		return in_array( $code, array( 401, 403, 404, 500 ), true ) || 200 === $code ? 'blocked' : 'unknown';
+		// Not Found, or a redirect or page from WordPress: the request was let through.
+		if ( in_array( $code, array( 200, 404 ), true ) || ( $code >= 300 && $code < 400 ) ) {
+			return 'open';
+		}
+		return 'unknown';
 	}
 }

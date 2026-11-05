@@ -2,6 +2,17 @@
 
 All notable changes to JAT Site Shield. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin uses [semantic versioning](https://semver.org/). The WordPress.org changelog in [readme.txt](readme.txt) is a shorter version of this file.
 
+## [1.1.1]: 2026-11-04
+
+Changes requested in the WordPress.org plugin review.
+
+### Changed
+- The two-factor encryption key is no longer written to `wp-content/jatss-key.php`. It is generated once and kept in a network option (`jatss_secret_key`), so it is shared by every site in a multisite network, like the users are. On sites that had the key file, its key is read as text (never run) and carried over, so every existing two-factor setup keeps working. `JATSS_SECRET_KEY` in `wp-config.php` still takes priority and keeps the key out of the database; secrets made with any earlier key are still read, and move to the current key at the user's next login. The overview check for the key is now optional.
+- The PHP-in-uploads test no longer writes a PHP file. It requests a random, non-existent `.php` address in the uploads folder: a server that blocks PHP there refuses the request (401 or 403), one that doesn't answers "Not Found". Results are now "blocked", "open" or "unknown"; a stored "executes" result from older versions is shown as "open".
+- Anderson Site Shield's key file is read as text during the move instead of being included.
+- Every admin action calls `check_admin_referer()` directly after the capability check. Resetting another user's two-factor from their profile has its own nonce.
+- Uninstalling deletes the `jatss_secret_key` option, and the old key file if one is left.
+
 ## [1.1.0]: 2026-11-02
 
 ### Added
@@ -68,6 +79,8 @@ First release.
 - Suggested privacy policy text. Uninstall removes all data, the two-factor key and the uploads rules.
 - Passes WordPress's Plugin Check with no errors or warnings, and the WordPress security and PHP 7.4+ compatibility sniffs in CI.
 
+[1.1.1]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.2...v1.1.1
+[1.1.0]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/CptNope/JAT-Site-Shield/releases/tag/v1.0.0

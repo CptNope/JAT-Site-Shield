@@ -4,7 +4,7 @@ Tags: security, two-factor, login security, hardening, activity log
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,13 +91,17 @@ Add `define( 'JATSS_SAFE_MODE', true );` to `wp-config.php`. This pauses the cus
 
 Another administrator can reset your two-factor from your user profile, or run `wp jat-shield reset-2fa <user>`. You'll set it up again at your next login.
 
-= What is wp-content/jatss-key.php? =
+= Where is the two-factor encryption key kept? =
 
-It holds the key that encrypts two-factor secrets, created when you activate the plugin. Keep it in your backups and copy it when you move the site. If it's lost, every user's two-factor has to be reset. To manage the key yourself, add `define( 'JATSS_SECRET_KEY', '...at least 32 random characters...' );` to `wp-config.php` before anyone sets up two-factor.
+Two-factor secrets are encrypted with a random key the plugin creates when you activate it and keeps in the database, so it travels with normal backups and migrations. It doesn't depend on the WordPress salts, so changing the salts after an incident doesn't break two-factor.
 
-= The PHP-in-uploads test says PHP still runs. =
+For extra protection, keep the key out of the database: add `define( 'JATSS_SECRET_KEY', '...64 random characters...' );` to `wp-config.php`. Two-factor keeps working for people who already set it up; their secrets move to the new key the next time they log in. Keep a copy of that line with your backups. If the key is lost, two-factor has to be reset for each user.
 
-Your server is probably nginx, which ignores `.htaccess` files. Ask your host to block PHP files in `wp-content/uploads`.
+Sites that used version 1.0 or 1.1 had the key in `wp-content/jatss-key.php`. The plugin carries that key over automatically; once you've logged in with two-factor on 1.1.1 or later, you can delete the file.
+
+= The PHP-in-uploads test says the server doesn't refuse PHP requests. =
+
+The test asks your site for a made-up `.php` address in the uploads folder; nothing is written. A server that blocks PHP there refuses the request. If it doesn't, your server is probably nginx, which ignores `.htaccess` files. Ask your host to block PHP files in `wp-content/uploads`.
 
 = Does it work with Cloudflare? =
 
@@ -113,7 +117,7 @@ For users with two-factor turned on, Site Shield ends any login session that did
 
 = The site runs on several servers. =
 
-Put `define( 'JATSS_SECRET_KEY', '...at least 32 random characters...' );` in `wp-config.php` on every server, before anyone sets up two-factor, so they all share one key. Lockouts are stored as WordPress transients, so use a shared object cache (Redis or Memcached) if you want lockouts to apply across servers.
+The two-factor key is kept in the database, so every server already shares it. If you define `JATSS_SECRET_KEY` in `wp-config.php`, use the same value on every server. Lockouts are stored as WordPress transients, so use a shared object cache (Redis or Memcached) if you want lockouts to apply across servers.
 
 = The file check never seems to run. =
 
@@ -169,6 +173,11 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 
 == Changelog ==
 
+= 1.1.1 =
+* Changed: the two-factor encryption key is kept in the database instead of a file in wp-content. Sites that had the old key file keep their key automatically. Define JATSS_SECRET_KEY in wp-config.php to keep the key out of the database.
+* Changed: the "Test it now" check for PHP in uploads no longer writes a test file. It asks for a made-up .php address in uploads and checks that the server refuses it.
+* Changed: resetting another user's two-factor from their profile is checked with its own nonce, and every admin action checks its nonce directly.
+
 = 1.1.0 =
 * New: sites that ran Anderson Site Shield, this plugin's name before 1.0, are moved over automatically on activation. Settings (including the custom login address), two-factor enrolment and backup codes, current login sessions and the activity log come across, and Anderson Site Shield is turned off. Two-factor secrets are re-encrypted with this plugin's key, so nobody has to set up two-factor again.
 * The file integrity scan no longer flags Anderson Site Shield's key file, wp-content/anshield-key.php.
@@ -185,6 +194,9 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 * First release: login lockouts, generic login errors, custom login address, two-factor authentication with backup codes, hardening, activity log, email alerts, file integrity scanning and WP-CLI commands.
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+The plugin no longer writes files to wp-content or uploads. Existing two-factor setups keep working.
 
 = 1.1.0 =
 Moves sites from Anderson Site Shield automatically, keeping two-factor, settings and the activity log.

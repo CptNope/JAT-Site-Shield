@@ -218,16 +218,21 @@ class Migration {
 		global $wpdb;
 		$old = $wpdb->prefix . 'anshield_events';
 		$new = Event_Log::table();
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery
 		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $old ) ) ) !== $old ) {
 			return 0;
 		}
 		Event_Log::install();
-		if ( (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$new}" ) > 0 ) {
+		if ( (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', $new ) ) > 0 ) {
 			return 0; // This plugin already has its own log; don't mix the two.
 		}
-		$cols = 'created_at, event_type, severity, user_id, username, ip, user_agent, object_type, object_id, message, context';
-		$done = $wpdb->query( "INSERT INTO {$new} ({$cols}) SELECT {$cols} FROM {$old} ORDER BY id ASC" );
+		$done = $wpdb->query(
+			$wpdb->prepare(
+				'INSERT INTO %i (created_at, event_type, severity, user_id, username, ip, user_agent, object_type, object_id, message, context) SELECT created_at, event_type, severity, user_id, username, ip, user_agent, object_type, object_id, message, context FROM %i ORDER BY id ASC',
+				$new,
+				$old
+			)
+		);
 		// phpcs:enable
 		return $done ? (int) $done : 0;
 	}
@@ -273,9 +278,10 @@ class Migration {
 		}
 		$file = WP_CONTENT_DIR . '/anshield-key.php';
 		if ( is_readable( $file ) ) {
-			$raw = include $file;
-			if ( is_string( $raw ) && strlen( $raw ) >= 40 ) {
-				return hash( 'sha256', 'anshield-2fa|' . $raw, true );
+			// Read the key as text; the file is never run.
+			$php = file_get_contents( $file, false, null, 0, 1024 ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			if ( is_string( $php ) && preg_match( "/return\\s+'([^'\\\\]{40,})'\\s*;/", $php, $m ) ) {
+				return hash( 'sha256', 'anshield-2fa|' . $m[1], true );
 			}
 		}
 		return false;

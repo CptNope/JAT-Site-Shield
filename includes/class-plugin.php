@@ -112,7 +112,7 @@ class Plugin {
 	 */
 	public static function activate() {
 		Event_Log::install();
-		Totp::dedicated_key(); // Create the 2FA key file now, while we know we're an admin request.
+		Totp::dedicated_key(); // Generate the two-factor encryption key (or carry over an older version's key).
 		Migration::run(); // Move settings, two-factor and the log over from Anderson Site Shield, if it was used here.
 		if ( ! get_option( Settings::OPTION ) ) {
 			add_option( Settings::OPTION, Settings::defaults(), '', true );

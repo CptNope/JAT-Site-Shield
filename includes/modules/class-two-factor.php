@@ -341,7 +341,7 @@ class Two_Factor {
 			$step = Totp::verify( $secret, $input, (int) get_user_meta( $user_id, self::META_LAST, true ) );
 			if ( false !== $step ) {
 				update_user_meta( $user_id, self::META_LAST, $step );
-				if ( 0 === strpos( (string) get_user_meta( $user_id, self::META_SECRET, true ), 'v1:' ) && Totp::dedicated_key() ) {
+				if ( Totp::needs_rekey( (string) get_user_meta( $user_id, self::META_SECRET, true ) ) ) {
 					update_user_meta( $user_id, self::META_SECRET, Totp::encrypt( $secret ) );
 				}
 				return 'totp';
@@ -459,6 +459,9 @@ class Two_Factor {
 	 * The code step on wp-login.php?action=jatss_2fa.
 	 */
 	public function login_step() {
+		// The user ID and token only identify a pending login. The token is a
+		// one-time secret checked by pending_login(); the code form itself is
+		// checked with a nonce below before anything changes.
 		// phpcs:disable WordPress.Security.NonceVerification
 		$uid   = isset( $_REQUEST['uid'] ) ? absint( $_REQUEST['uid'] ) : 0;
 		$token = isset( $_REQUEST['token'] ) && is_string( $_REQUEST['token'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['token'] ) ) : '';
@@ -869,6 +872,7 @@ class Two_Factor {
 						&nbsp;<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=' . self::SETUP_PAGE ) ); ?>"><?php echo $enrolled ? esc_html__( 'Manage', 'jat-site-shield' ) : esc_html__( 'Set up', 'jat-site-shield' ); ?></a>
 					<?php elseif ( $enrolled && current_user_can( 'edit_user', $user->ID ) && current_user_can( 'promote_users' ) ) : ?>
 						<p><label><input type="checkbox" name="jatss_2fa_reset" value="1" /> <?php esc_html_e( 'Reset two-factor for this user (they will set it up again at next login)', 'jat-site-shield' ); ?></label></p>
+						<?php wp_nonce_field( 'jatss_2fa_reset_' . $user->ID, '_jatss_reset_nonce' ); ?>
 					<?php endif; ?>
 				</td>
 			</tr>
@@ -878,15 +882,18 @@ class Two_Factor {
 
 	/**
 	 * An administrator resets someone else's 2FA from their profile.
-	 * Core has already checked the update-user nonce at this point.
 	 *
 	 * @param int $user_id Profile being saved.
 	 */
 	public function handle_admin_reset( $user_id ) {
-		if ( empty( $_POST['jatss_2fa_reset'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$user_id = (int) $user_id;
+		if ( ! isset( $_POST['_jatss_reset_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_jatss_reset_nonce'] ) ), 'jatss_2fa_reset_' . $user_id ) ) {
 			return;
 		}
-		if ( ! current_user_can( 'edit_user', $user_id ) || ! current_user_can( 'promote_users' ) || get_current_user_id() === (int) $user_id ) {
+		if ( empty( $_POST['jatss_2fa_reset'] ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_user', $user_id ) || ! current_user_can( 'promote_users' ) || get_current_user_id() === $user_id ) {
 			return;
 		}
 		self::reset( $user_id, sprintf( /* translators: %s: admin username */ __( 'reset by %s', 'jat-site-shield' ), wp_get_current_user()->user_login ) );

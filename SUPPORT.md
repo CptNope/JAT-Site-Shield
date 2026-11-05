@@ -16,6 +16,6 @@ Most questions are answered in one of these:
 - **Behind Cloudflare?** The [free Cloudflare setup guide](docs/cloudflare.md) and **Site Shield → Settings → Network**.
 - **Something else?** The FAQ in [readme.txt](readme.txt) and the [known limits](README.md#known-limits).
 
-When you ask, include the output of `wp jat-shield status` if you can, or a screenshot of **Site Shield → Overview**. Never post passwords, backup codes, your custom login address or the contents of `wp-content/jatss-key.php`.
+When you ask, include the output of `wp jat-shield status` if you can, or a screenshot of **Site Shield → Overview**. Never post passwords, backup codes, your custom login address or your `JATSS_SECRET_KEY`.
 
 The plugin is free and support is given in spare time, so replies on the forum and GitHub may take a few days.
