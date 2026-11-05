@@ -1,0 +1,1701 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JAT Site Shield 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jat-site-shield\n"
+"Last-Translator: CyberJean98\n"
+"Language-Team: Spanish (Spain)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-04T21:19:20+00:00\n"
+"PO-Revision-Date: 2026-11-04 11:00-0500\n"
+"Language: es_ES\n"
+"X-Domain: jat-site-shield\n"
+"X-Generator: WP-CLI 2.12.0\n"
+
+#. Plugin Name of the plugin
+#: jat-site-shield.php
+#: includes/admin/class-admin.php:323
+msgid "JAT Site Shield"
+msgstr "JAT Site Shield"
+
+#. Description of the plugin
+#: jat-site-shield.php
+msgid "Locks WordPress down: login protection, two-factor authentication, core hardening, an activity log and file integrity monitoring."
+msgstr "Blinda WordPress: protección del inicio de sesión, autenticación de dos factores, refuerzo del núcleo, un registro de actividad y supervisión de la integridad de archivos."
+
+#. Author of the plugin
+#: jat-site-shield.php
+msgid "Jeremy Anderson Tech"
+msgstr "Jeremy Anderson Tech"
+
+#. Author URI of the plugin
+#: jat-site-shield.php
+msgid "https://jeremyanderson.tech/"
+msgstr "https://jeremyanderson.tech/"
+
+#: includes/admin/class-admin.php:57
+msgid "To protect this site from attacks, we record security events such as logins, failed login attempts and changes to user accounts. Each record can include your username, your IP address and your browser’s user agent."
+msgstr "Para proteger este sitio de ataques, registramos eventos de seguridad como inicios de sesión, intentos fallidos de inicio de sesión y cambios en las cuentas de usuario. Cada registro puede incluir tu nombre de usuario, tu dirección IP y el agente de usuario de tu navegador."
+
+#. translators: %d: days
+#: includes/admin/class-admin.php:61
+#, php-format
+msgid "These records are kept for %d days and are only visible to site administrators. They are not shared with anyone."
+msgstr "Estos registros se conservan durante %d días y solo son visibles para los administradores del sitio. No se comparten con nadie."
+
+#: includes/admin/class-admin.php:75
+msgid "Site Shield"
+msgstr "Site Shield"
+
+#: includes/admin/class-admin.php:76
+msgid "Overview"
+msgstr "Resumen"
+
+#: includes/admin/class-admin.php:77
+#: includes/admin/class-admin.php:569
+msgid "Activity log"
+msgstr "Registro de actividad"
+
+#: includes/admin/class-admin.php:78
+#: includes/admin/class-admin.php:454
+#: includes/admin/class-admin.php:565
+#: includes/admin/class-admin.php:655
+msgid "File integrity"
+msgstr "Integridad de archivos"
+
+#: includes/admin/class-admin.php:79
+#: includes/admin/class-admin.php:120
+#: includes/admin/class-admin.php:564
+#: includes/admin/class-admin.php:763
+msgid "Settings"
+msgstr "Ajustes"
+
+#: includes/admin/class-admin.php:129
+msgid "Site Shield can’t see real visitor IPs."
+msgstr "Site Shield no puede ver las IP reales de los visitantes."
+
+#: includes/admin/class-admin.php:129
+msgid "Requests carry a Cloudflare visitor header but reach WordPress through a proxy Site Shield doesn’t trust, usually a web server on the same machine. Until that’s fixed, visitors may share one address and a few wrong passwords could lock out everyone. Add the proxy’s address under Trusted proxies in Site Shield settings."
+msgstr "Las solicitudes llevan una cabecera de visitante de Cloudflare, pero llegan a WordPress a través de un proxy en el que Site Shield no confía, normalmente un servidor web en la misma máquina. Mientras no se solucione, los visitantes pueden compartir una sola dirección y unas pocas contraseñas incorrectas podrían bloquear a todos. Añade la dirección del proxy en Proxies de confianza, dentro de los ajustes de Site Shield."
+
+#: includes/admin/class-admin.php:132
+msgid "Site Shield safe mode is on."
+msgstr "El modo seguro de Site Shield está activado."
+
+#: includes/admin/class-admin.php:132
+msgid "The custom login URL, two-factor and login lockouts are paused. Remove JATSS_SAFE_MODE from wp-config.php when you are back in."
+msgstr "La URL de inicio de sesión personalizada, la autenticación de dos factores y los bloqueos de inicio de sesión están en pausa. Elimina JATSS_SAFE_MODE de wp-config.php cuando hayas recuperado el acceso."
+
+#: includes/admin/class-admin.php:150
+msgid "Login lockouts"
+msgstr "Bloqueos de inicio de sesión"
+
+#. translators: 1: attempts, 2: minutes
+#: includes/admin/class-admin.php:153
+#, php-format
+msgid "%1$d failures locks an IP out for %2$d minutes."
+msgstr "%1$d fallos bloquean una IP durante %2$d minutos."
+
+#. translators: 1: attempts, 2: minutes
+#: includes/admin/class-admin.php:153
+msgid "Anyone can guess passwords without limit."
+msgstr "Cualquiera puede probar contraseñas sin límite."
+
+#: includes/admin/class-admin.php:166
+msgid "Two-factor for required roles"
+msgstr "Dos factores para los roles obligatorios"
+
+#: includes/admin/class-admin.php:169
+msgid "Not required for any role."
+msgstr "No se exige a ningún rol."
+
+#. translators: %s: usernames
+#: includes/admin/class-admin.php:172
+#, php-format
+msgid "Not set up yet: %s (they must enroll at next login)."
+msgstr "Aún sin configurar: %s (deberán configurarla en su próximo inicio de sesión)."
+
+#. translators: %s: roles
+#: includes/admin/class-admin.php:174
+#, php-format
+msgid "Required and set up for: %s."
+msgstr "Obligatoria y configurada para: %s."
+
+#: includes/admin/class-admin.php:178
+msgid "Custom login URL"
+msgstr "URL de inicio de sesión personalizada"
+
+#: includes/admin/class-admin.php:180
+msgid "Optional. Bots go straight to wp-login.php."
+msgstr "Opcional. Los bots van directamente a wp-login.php."
+
+#: includes/admin/class-admin.php:183
+msgid "Left on because Jetpack needs it."
+msgstr "Se mantiene activado porque Jetpack lo necesita."
+
+#: includes/admin/class-admin.php:183
+msgid "Brute-force and pingback attacks over xmlrpc.php."
+msgstr "Ataques de fuerza bruta y de pingback a través de xmlrpc.php."
+
+#: includes/admin/class-admin.php:185
+msgid "XML-RPC blocked"
+msgstr "XML-RPC bloqueado"
+
+#: includes/admin/class-admin.php:190
+msgid "Username scanning blocked"
+msgstr "Escaneo de nombres de usuario bloqueado"
+
+#: includes/admin/class-admin.php:192
+msgid "?author=, REST /users, oEmbed and the users sitemap."
+msgstr "?author=, REST /users, oEmbed y el mapa del sitio de usuarios."
+
+#: includes/admin/class-admin.php:195
+msgid "Theme and plugin editor off"
+msgstr "Editor de temas y plugins desactivado"
+
+#: includes/admin/class-admin.php:197
+msgid "A stolen admin login can't edit PHP from the dashboard."
+msgstr "Un inicio de sesión de administrador robado no puede editar PHP desde el escritorio."
+
+#: includes/admin/class-admin.php:200
+msgid "PHP blocked in uploads"
+msgstr "PHP bloqueado en uploads"
+
+#: includes/admin/class-admin.php:204
+msgid "Verified by a live test."
+msgstr "Verificado con una prueba en vivo."
+
+#: includes/admin/class-admin.php:204
+msgid "Rules written; run the test on the Settings screen to confirm."
+msgstr "Reglas escritas; ejecuta la prueba en la pantalla de Ajustes para confirmarlo."
+
+#: includes/admin/class-admin.php:207
+msgid "Security headers"
+msgstr "Cabeceras de seguridad"
+
+#: includes/admin/class-admin.php:209
+msgid "nosniff, frame protection, referrer and permissions policy."
+msgstr "nosniff, protección contra frames, política de referencia y de permisos."
+
+#: includes/admin/class-admin.php:212
+msgid "HTTPS"
+msgstr "HTTPS"
+
+#: includes/admin/class-admin.php:214
+msgid "Site address uses HTTPS."
+msgstr "La dirección del sitio usa HTTPS."
+
+#: includes/admin/class-admin.php:214
+msgid "Site address is not HTTPS; logins travel unencrypted."
+msgstr "La dirección del sitio no usa HTTPS; los inicios de sesión viajan sin cifrar."
+
+#: includes/admin/class-admin.php:220
+msgid "HTTPS all the way to the server"
+msgstr "HTTPS hasta el servidor"
+
+#: includes/admin/class-admin.php:223
+msgid "Cloudflare is connecting to your server over plain HTTP (Flexible mode). Set Cloudflare SSL/TLS to Full (strict)."
+msgstr "Cloudflare se conecta a tu servidor mediante HTTP sin cifrar (modo Flexible). Establece el SSL/TLS de Cloudflare en Completo (estricto)."
+
+#: includes/admin/class-admin.php:224
+msgid "WordPress sees this page as plain HTTP although the site address is HTTPS. A proxy is probably not passing the HTTPS scheme on; ask your host."
+msgstr "WordPress ve esta página como HTTP simple aunque la dirección del sitio es HTTPS. Probablemente un proxy no está transmitiendo el esquema HTTPS; consúltalo con tu proveedor de alojamiento."
+
+#: includes/admin/class-admin.php:228
+msgid "Activity log and alerts"
+msgstr "Registro de actividad y alertas"
+
+#. translators: %s: emails
+#: includes/admin/class-admin.php:231
+#, php-format
+msgid "Alerts to %s."
+msgstr "Alertas a %s."
+
+#: includes/admin/class-admin.php:236
+msgid "File integrity monitoring"
+msgstr "Supervisión de integridad de archivos"
+
+#: includes/admin/class-admin.php:238
+msgid "Off."
+msgstr "Desactivada."
+
+#. translators: %s: time ago
+#. translators: %s: time
+#: includes/admin/class-admin.php:240
+#: includes/admin/class-admin.php:527
+#, php-format
+msgid "Last scan %s ago."
+msgstr "Último análisis hace %s."
+
+#: includes/admin/class-admin.php:241
+#: includes/admin/class-admin.php:516
+msgid "No scan yet."
+msgstr "Aún no hay análisis."
+
+#: includes/admin/class-admin.php:241
+msgid "WP-Cron is turned off on this site, so make sure a server cron job runs wp-cron.php."
+msgstr "WP-Cron está desactivado en este sitio, así que asegúrate de que una tarea cron del servidor ejecute wp-cron.php."
+
+#: includes/admin/class-admin.php:246
+msgid "Two-factor key kept outside the database"
+msgstr "Clave de dos factores guardada fuera de la base de datos"
+
+#: includes/admin/class-admin.php:258
+msgid "Cloudflare in front of the site"
+msgstr "Cloudflare delante del sitio"
+
+#: includes/admin/class-admin.php:262
+msgid "Requests come through Cloudflare and real visitor IPs are used."
+msgstr "Las solicitudes pasan por Cloudflare y se usan las IP reales de los visitantes."
+
+#: includes/admin/class-admin.php:263
+msgid "Optional. Cloudflare’s free plan blocks attacks before they reach your server. See the setup guide linked in Settings."
+msgstr "Opcional. El plan gratuito de Cloudflare bloquea ataques antes de que lleguen a tu servidor. Consulta la guía de configuración enlazada en Ajustes."
+
+#: includes/admin/class-admin.php:268
+msgid "Errors hidden from visitors"
+msgstr "Errores ocultos a los visitantes"
+
+#: includes/admin/class-admin.php:270
+msgid "WP_DEBUG with display on leaks file paths to visitors."
+msgstr "WP_DEBUG con la visualización activada expone rutas de archivos a los visitantes."
+
+#: includes/admin/class-admin.php:275
+msgid "No \"admin\" username"
+msgstr "Ningún usuario “admin”"
+
+#: includes/admin/class-admin.php:277
+msgid "An account named \"admin\" is the first one bots guess. Create a new admin and delete it."
+msgstr "Una cuenta llamada “admin” es la primera que adivinan los bots. Crea un nuevo administrador y elimínala."
+
+#: includes/admin/class-admin.php:277
+msgid "Good."
+msgstr "Bien."
+
+#: includes/admin/class-admin.php:333
+msgid "Something on this site needs your attention."
+msgstr "Algo en este sitio necesita tu atención."
+
+#. translators: %d: number of protections that are off
+#: includes/admin/class-admin.php:337
+#, php-format
+msgid "%d protection is off."
+msgid_plural "%d protections are off."
+msgstr[0] "%d protección está desactivada."
+msgstr[1] "%d protecciones están desactivadas."
+
+#. translators: %d: number of protections that are off
+#: includes/admin/class-admin.php:337
+msgid "Some files need a look."
+msgstr "Algunos archivos requieren revisión."
+
+#: includes/admin/class-admin.php:340
+msgid "This site is locked down."
+msgstr "Este sitio está blindado."
+
+#. translators: 1: protections on, 2: total, 3: events in the last 7 days
+#: includes/admin/class-admin.php:359
+#, php-format
+msgid "%1$d of %2$d protections on. %3$d security events in the last 7 days."
+msgstr "%1$d de %2$d protecciones activadas. %3$d eventos de seguridad en los últimos 7 días."
+
+#: includes/admin/class-admin.php:369
+#: includes/admin/class-admin.php:559
+msgid "Logins"
+msgstr "Inicios de sesión"
+
+#: includes/admin/class-admin.php:370
+msgid "Lockouts and two-factor"
+msgstr "Bloqueos y dos factores"
+
+#: includes/admin/class-admin.php:372
+msgid "Under attack"
+msgstr "Bajo ataque"
+
+#: includes/admin/class-admin.php:372
+msgid "Protected"
+msgstr "Protegido"
+
+#: includes/admin/class-admin.php:372
+msgid "Needs setup"
+msgstr "Requiere configuración"
+
+#. translators: %d: number of locked out IPs
+#: includes/admin/class-admin.php:374
+#, php-format
+msgid "%d IP locked out right now."
+msgid_plural "%d IPs locked out right now."
+msgstr[0] "%d IP bloqueada ahora mismo."
+msgstr[1] "%d IP bloqueadas ahora mismo."
+
+#: includes/admin/class-admin.php:377
+#: includes/admin/class-admin.php:822
+msgid "Hardening"
+msgstr "Refuerzo"
+
+#: includes/admin/class-admin.php:378
+msgid "WordPress settings"
+msgstr "Ajustes de WordPress"
+
+#: includes/admin/class-admin.php:380
+msgid "All on"
+msgstr "Todo activado"
+
+#: includes/admin/class-admin.php:380
+msgid "Some off"
+msgstr "Algunos desactivados"
+
+#. translators: 1: on, 2: total
+#: includes/admin/class-admin.php:382
+#, php-format
+msgid "%1$d of %2$d hardening options on."
+msgstr "%1$d de %2$d opciones de refuerzo activadas."
+
+#: includes/admin/class-admin.php:385
+msgid "Files"
+msgstr "Archivos"
+
+#: includes/admin/class-admin.php:386
+msgid "Integrity check"
+msgstr "Comprobación de integridad"
+
+#: includes/admin/class-admin.php:388
+msgid "Not checked yet"
+msgstr "Aún sin comprobar"
+
+#. translators: %d: files
+#: includes/admin/class-admin.php:390
+#, php-format
+msgid "%d file to review"
+msgid_plural "%d files to review"
+msgstr[0] "%d archivo por revisar"
+msgstr[1] "%d archivos por revisar"
+
+#: includes/admin/class-admin.php:391
+msgid "No changes"
+msgstr "Sin cambios"
+
+#. translators: %s: time ago
+#: includes/admin/class-admin.php:394
+#, php-format
+msgid "Checked %s ago."
+msgstr "Comprobado hace %s."
+
+#: includes/admin/class-admin.php:395
+msgid "Runs daily, or start one on the File integrity screen."
+msgstr "Se ejecuta a diario, o inicia una comprobación en la pantalla Integridad de archivos."
+
+#: includes/admin/class-admin.php:403
+msgid "Protection checklist"
+msgstr "Lista de comprobación de protección"
+
+#: includes/admin/class-admin.php:409
+msgid "on"
+msgstr "activado"
+
+#: includes/admin/class-admin.php:409
+msgid "needs attention"
+msgstr "requiere atención"
+
+#: includes/admin/class-admin.php:409
+msgid "optional"
+msgstr "opcional"
+
+#: includes/admin/class-admin.php:417
+msgid "Needs a look"
+msgstr "Requiere revisión"
+
+#: includes/admin/class-admin.php:419
+msgid "No warnings or critical events. Quiet is good."
+msgstr "Sin advertencias ni eventos críticos. La calma es buena señal."
+
+#. translators: %s: time
+#: includes/admin/class-admin.php:423
+#, php-format
+msgid "%s ago"
+msgstr "hace %s"
+
+#: includes/admin/class-admin.php:426
+msgid "Full activity log"
+msgstr "Registro de actividad completo"
+
+#: includes/admin/class-admin.php:431
+msgid "Lockouts"
+msgstr "Bloqueos"
+
+#: includes/admin/class-admin.php:433
+msgid "No IPs are locked out."
+msgstr "No hay IP bloqueadas."
+
+#. translators: %s: time
+#: includes/admin/class-admin.php:438
+#, php-format
+msgid "for %s"
+msgstr "durante %s"
+
+#. translators: %s: time
+#: includes/admin/class-admin.php:439
+msgid "Unlock"
+msgstr "Desbloquear"
+
+#: includes/admin/class-admin.php:443
+msgid "Unlock all"
+msgstr "Desbloquear todas"
+
+#. translators: %s: IP
+#: includes/admin/class-admin.php:448
+#, php-format
+msgid "Your IP right now: %s"
+msgstr "Tu IP ahora mismo: %s"
+
+#: includes/admin/class-admin.php:489
+msgid "About this plugin"
+msgstr "Acerca de este plugin"
+
+#: includes/admin/class-admin.php:491
+msgid "Free and open source, by Jeremy Anderson."
+msgstr "Gratuito y de código abierto, por Jeremy Anderson."
+
+#: includes/admin/class-admin.php:492
+msgid "Need hands-on help locking down or cleaning up a WordPress site? I build and look after WordPress sites."
+msgstr "¿Necesitas ayuda práctica para blindar o limpiar un sitio WordPress? Creo y mantengo sitios WordPress."
+
+#: includes/admin/class-admin.php:495
+msgid "Book a call"
+msgstr "Reservar una llamada"
+
+#: includes/admin/class-admin.php:496
+msgid "Services"
+msgstr "Servicios"
+
+#: includes/admin/class-admin.php:497
+msgid "Report a problem"
+msgstr "Informar de un problema"
+
+#. translators: 1: done, 2: total
+#: includes/admin/class-admin.php:512
+#, php-format
+msgid "Scan running: %1$d of %2$d steps done."
+msgstr "Análisis en curso: %1$d de %2$d pasos completados."
+
+#: includes/admin/class-admin.php:517
+#: includes/admin/class-admin.php:663
+msgid "Scan now"
+msgstr "Analizar ahora"
+
+#. translators: %d: count
+#: includes/admin/class-admin.php:530
+#, php-format
+msgid "%d file needs review."
+msgid_plural "%d files need review."
+msgstr[0] "%d archivo necesita revisión."
+msgstr[1] "%d archivos necesitan revisión."
+
+#: includes/admin/class-admin.php:532
+msgid "Nothing needs review."
+msgstr "No hay nada que revisar."
+
+#: includes/admin/class-admin.php:534
+msgid "See results"
+msgstr "Ver resultados"
+
+#: includes/admin/class-admin.php:558
+msgid "All events"
+msgstr "Todos los eventos"
+
+#: includes/admin/class-admin.php:560
+#: includes/modules/class-two-factor.php:703
+#: includes/modules/class-two-factor.php:713
+msgid "Two-factor"
+msgstr "Dos factores"
+
+#: includes/admin/class-admin.php:561
+msgid "Users"
+msgstr "Usuarios"
+
+#: includes/admin/class-admin.php:562
+msgid "Plugins"
+msgstr "Plugins"
+
+#: includes/admin/class-admin.php:563
+msgid "Themes"
+msgstr "Temas"
+
+#: includes/admin/class-admin.php:566
+msgid "Blocked probes"
+msgstr "Sondeos bloqueados"
+
+#: includes/admin/class-admin.php:573
+msgid "Minimum severity"
+msgstr "Gravedad mínima"
+
+#: includes/admin/class-admin.php:575
+msgid "Any severity"
+msgstr "Cualquier gravedad"
+
+#. translators: %s: severity
+#: includes/admin/class-admin.php:578
+#, php-format
+msgid "%s and above"
+msgstr "%s y superior"
+
+#: includes/admin/class-admin.php:581
+msgid "Event type"
+msgstr "Tipo de evento"
+
+#: includes/admin/class-admin.php:587
+msgid "Search"
+msgstr "Buscar"
+
+#: includes/admin/class-admin.php:588
+msgid "User, IP or text"
+msgstr "Usuario, IP o texto"
+
+#: includes/admin/class-admin.php:589
+msgid "Filter"
+msgstr "Filtrar"
+
+#: includes/admin/class-admin.php:590
+msgid "Export CSV"
+msgstr "Exportar CSV"
+
+#. translators: %s: count
+#: includes/admin/class-admin.php:594
+#, php-format
+msgid "%s event"
+msgid_plural "%s events"
+msgstr[0] "%s evento"
+msgstr[1] "%s eventos"
+
+#: includes/admin/class-admin.php:601
+msgid "When"
+msgstr "Cuándo"
+
+#: includes/admin/class-admin.php:602
+#: includes/admin/class-admin.php:734
+msgid "Severity"
+msgstr "Gravedad"
+
+#: includes/admin/class-admin.php:603
+msgid "Event"
+msgstr "Evento"
+
+#: includes/admin/class-admin.php:604
+msgid "User"
+msgstr "Usuario"
+
+#: includes/admin/class-admin.php:605
+msgid "IP"
+msgstr "IP"
+
+#: includes/admin/class-admin.php:609
+msgid "No events match."
+msgstr "Ningún evento coincide."
+
+#. translators: %d: days
+#: includes/admin/class-admin.php:641
+#, php-format
+msgid "Events are kept for %d days."
+msgstr "Los eventos se conservan durante %d días."
+
+#: includes/admin/class-admin.php:658
+msgid "Compares WordPress core and WordPress.org plugins with their official checksums, and looks for PHP files where they don't belong. Runs daily."
+msgstr "Compara el núcleo de WordPress y los plugins de WordPress.org con sus sumas de verificación oficiales, y busca archivos PHP donde no deberían estar. Se ejecuta a diario."
+
+#. translators: 1: done, 2: total
+#: includes/admin/class-admin.php:661
+#, php-format
+msgid "Scan running: %1$d of %2$d steps done. Reload to see progress."
+msgstr "Análisis en curso: %1$d de %2$d pasos completados. Recarga para ver el progreso."
+
+#. translators: %s: time
+#: includes/admin/class-admin.php:692
+#, php-format
+msgid "Results from %s ago"
+msgstr "Resultados de hace %s"
+
+#: includes/admin/class-admin.php:696
+msgid "No files need review."
+msgstr "Ningún archivo requiere revisión."
+
+#: includes/admin/class-admin.php:698
+msgid "Check each file. If it is yours and expected, accept it; it will be reported again only if it changes. If you don't recognise it, inspect it with JAT Shell Scanner or restore the original."
+msgstr "Revisa cada archivo. Si es tuyo y lo esperabas, acéptalo; solo se volverá a notificar si cambia. Si no lo reconoces, inspecciónalo con JAT Shell Scanner o restaura el original."
+
+#: includes/admin/class-admin.php:700
+msgid "Accept all of these"
+msgstr "Aceptar todos estos"
+
+#: includes/admin/class-admin.php:700
+msgid "Only after checking them, for example after a theme you built was edited."
+msgstr "Solo después de revisarlos, por ejemplo tras editar un tema que hayas creado."
+
+#. translators: %d: count
+#: includes/admin/class-admin.php:704
+#, php-format
+msgid "%d informational item"
+msgid_plural "%d informational items"
+msgstr[0] "%d elemento informativo"
+msgstr[1] "%d elementos informativos"
+
+#. translators: %d: count
+#: includes/admin/class-admin.php:709
+#, php-format
+msgid "%d accepted file"
+msgid_plural "%d accepted files"
+msgstr[0] "%d archivo aceptado"
+msgstr[1] "%d archivos aceptados"
+
+#: includes/admin/class-admin.php:714
+msgid "Scan notes"
+msgstr "Notas del análisis"
+
+#: includes/admin/class-admin.php:735
+msgid "File"
+msgstr "Archivo"
+
+#: includes/admin/class-admin.php:736
+msgid "Issue"
+msgstr "Problema"
+
+#: includes/admin/class-admin.php:737
+msgid "Modified"
+msgstr "Modificado"
+
+#: includes/admin/class-admin.php:738
+msgid "Actions"
+msgstr "Acciones"
+
+#: includes/admin/class-admin.php:748
+msgid "Accept"
+msgstr "Aceptar"
+
+#: includes/admin/class-admin.php:770
+msgid "Login protection"
+msgstr "Protección del inicio de sesión"
+
+#: includes/admin/class-admin.php:772
+msgid "Lock out IPs after failed logins"
+msgstr "Bloquear IP tras inicios de sesión fallidos"
+
+#: includes/admin/class-admin.php:773
+msgid "Limits"
+msgstr "Límites"
+
+#. translators: 1: attempts input, 2: window input, 3: lockout input
+#: includes/admin/class-admin.php:777
+#, php-format
+msgid "After %1$s failures in %2$s minutes, lock out for %3$s minutes."
+msgstr "Tras %1$s fallos en %2$s minutos, bloquear durante %3$s minutos."
+
+#. translators: 1: count input, 2: hours input
+#: includes/admin/class-admin.php:785
+#, php-format
+msgid "After %1$s lockouts, lock out for %2$s hours."
+msgstr "Tras %1$s bloqueos, bloquear durante %2$s horas."
+
+#: includes/admin/class-admin.php:791
+msgid "Don't reveal whether a username exists"
+msgstr "No revelar si un nombre de usuario existe"
+
+#: includes/admin/class-admin.php:791
+msgid "Login and password-reset forms give the same answer either way."
+msgstr "Los formularios de inicio de sesión y de restablecimiento de contraseña dan la misma respuesta en ambos casos."
+
+#: includes/admin/class-admin.php:792
+msgid "Never lock out"
+msgstr "No bloquear nunca"
+
+#. translators: %s: IP
+#: includes/admin/class-admin.php:795
+#, php-format
+msgid "One IP or CIDR range per line, such as your office. Your IP right now: %s"
+msgstr "Una IP o rango CIDR por línea, como el de tu oficina. Tu IP ahora mismo: %s"
+
+#: includes/admin/class-admin.php:797
+msgid "Move the login page"
+msgstr "Mover la página de inicio de sesión"
+
+#: includes/admin/class-admin.php:797
+msgid "wp-login.php and /wp-admin return \"Not Found\" to logged-out visitors. Bookmark the new address before saving. Login links your theme shows to logged-out visitors (such as \"Log in to reply\") will also return \"Not Found\"."
+msgstr "wp-login.php y /wp-admin devuelven “No encontrado” a los visitantes sin sesión iniciada. Añade la nueva dirección a tus marcadores antes de guardar. Los enlaces de inicio de sesión que tu tema muestra a visitantes sin sesión (como “Inicia sesión para responder”) también devolverán “No encontrado”."
+
+#: includes/admin/class-admin.php:798
+msgid "Login address"
+msgstr "Dirección de inicio de sesión"
+
+#: includes/admin/class-admin.php:800
+msgid "Locked out? Add define( 'JATSS_SAFE_MODE', true ); to wp-config.php, or run: wp jat-shield login-url"
+msgstr "¿Te has quedado fuera? Añade define( 'JATSS_SAFE_MODE', true ); a wp-config.php, o ejecuta: wp jat-shield login-url"
+
+#: includes/admin/class-admin.php:806
+#: includes/modules/class-two-factor.php:604
+#: includes/modules/class-two-factor.php:702
+#: includes/modules/class-two-factor.php:712
+#: includes/modules/class-two-factor.php:788
+#: includes/modules/class-two-factor.php:861
+msgid "Two-factor authentication"
+msgstr "Autenticación de dos factores"
+
+#: includes/admin/class-admin.php:808
+msgid "Allow two-factor with an authenticator app"
+msgstr "Permitir dos factores con una aplicación de autenticación"
+
+#: includes/admin/class-admin.php:809
+msgid "Required for"
+msgstr "Obligatoria para"
+
+#: includes/admin/class-admin.php:810
+msgid "Roles that must use two-factor"
+msgstr "Roles que deben usar dos factores"
+
+#: includes/admin/class-admin.php:815
+msgid "People in these roles must set up two-factor before they can use the dashboard."
+msgstr "Las personas con estos roles deben configurar la autenticación de dos factores antes de poder usar el escritorio."
+
+#: includes/admin/class-admin.php:817
+msgid "Block password logins over XML-RPC for two-factor users"
+msgstr "Bloquear los inicios de sesión con contraseña por XML-RPC para usuarios con dos factores"
+
+#: includes/admin/class-admin.php:817
+msgid "Otherwise XML-RPC would skip the second step. Apps can use application passwords."
+msgstr "De lo contrario, XML-RPC se saltaría el segundo paso. Las aplicaciones pueden usar contraseñas de aplicación."
+
+#: includes/admin/class-admin.php:824
+msgid "Block XML-RPC"
+msgstr "Bloquear XML-RPC"
+
+#: includes/admin/class-admin.php:824
+msgid "Jetpack is active and needs XML-RPC, so it stays on."
+msgstr "Jetpack está activo y necesita XML-RPC, así que sigue activado."
+
+#: includes/admin/class-admin.php:824
+msgid "Stops brute force and pingback abuse through xmlrpc.php."
+msgstr "Detiene la fuerza bruta y el abuso de pingback a través de xmlrpc.php."
+
+#: includes/admin/class-admin.php:825
+msgid "Block username scanning"
+msgstr "Bloquear el escaneo de nombres de usuario"
+
+#: includes/admin/class-admin.php:826
+msgid "Turn off the theme and plugin file editor"
+msgstr "Desactivar el editor de archivos de temas y plugins"
+
+#: includes/admin/class-admin.php:826
+msgid "Already set in wp-config.php."
+msgstr "Ya definido en wp-config.php."
+
+#: includes/admin/class-admin.php:827
+msgid "Block PHP in the uploads folder"
+msgstr "Bloquear PHP en la carpeta uploads"
+
+#: includes/admin/class-admin.php:827
+msgid "Writes an .htaccess rule (Apache and LiteSpeed). On nginx-only hosts, ask the host to add the equivalent rule."
+msgstr "Escribe una regla en .htaccess (Apache y LiteSpeed). En servidores solo con nginx, pide a tu proveedor que añada la regla equivalente."
+
+#: includes/admin/class-admin.php:836
+msgid "Last test could not reach the site."
+msgstr "La última prueba no pudo acceder al sitio."
+
+#: includes/admin/class-admin.php:843
+msgid "Test it now"
+msgstr "Probar ahora"
+
+#: includes/admin/class-admin.php:845
+msgid "Send security headers"
+msgstr "Enviar cabeceras de seguridad"
+
+#: includes/admin/class-admin.php:846
+msgid "Send HSTS (force HTTPS in browsers for a year)"
+msgstr "Enviar HSTS (obliga a los navegadores a usar HTTPS durante un año)"
+
+#: includes/admin/class-admin.php:846
+msgid "Only turn on once the whole site works over HTTPS."
+msgstr "Actívalo solo cuando todo el sitio funcione con HTTPS."
+
+#: includes/admin/class-admin.php:847
+msgid "Hide the WordPress version"
+msgstr "Ocultar la versión de WordPress"
+
+#: includes/admin/class-admin.php:848
+msgid "Turn off application passwords"
+msgstr "Desactivar las contraseñas de aplicación"
+
+#: includes/admin/class-admin.php:848
+msgid "Breaks the WordPress mobile app and integrations that use them."
+msgstr "Rompe la aplicación móvil de WordPress y las integraciones que las usan."
+
+#: includes/admin/class-admin.php:853
+msgid "Monitoring and alerts"
+msgstr "Supervisión y alertas"
+
+#: includes/admin/class-admin.php:855
+msgid "Keep an activity log"
+msgstr "Mantener un registro de actividad"
+
+#: includes/admin/class-admin.php:856
+msgid "Keep events for"
+msgstr "Conservar los eventos durante"
+
+#: includes/admin/class-admin.php:856
+msgid "days"
+msgstr "días"
+
+#: includes/admin/class-admin.php:857
+msgid "Email alerts to"
+msgstr "Enviar alertas por correo a"
+
+#: includes/admin/class-admin.php:859
+msgid "Comma-separated. Empty sends to the site admin email. At most 10 alerts an hour."
+msgstr "Separadas por comas. Si se deja vacío, se envían al correo del administrador del sitio. Máximo 10 alertas por hora."
+
+#: includes/admin/class-admin.php:860
+msgid "Send a test alert"
+msgstr "Enviar una alerta de prueba"
+
+#: includes/admin/class-admin.php:862
+msgid "Alert on"
+msgstr "Alertar sobre"
+
+#: includes/admin/class-admin.php:864
+msgid "Critical events only"
+msgstr "Solo eventos críticos"
+
+#: includes/admin/class-admin.php:865
+msgid "Warnings and critical events"
+msgstr "Advertencias y eventos críticos"
+
+#: includes/admin/class-admin.php:868
+msgid "Daily file integrity scan"
+msgstr "Análisis diario de integridad de archivos"
+
+#: includes/admin/class-admin.php:869
+msgid "Include WordPress.org plugins"
+msgstr "Incluir plugins de WordPress.org"
+
+#: includes/admin/class-admin.php:874
+msgid "Network"
+msgstr "Red"
+
+#: includes/admin/class-admin.php:876
+msgid "Visitor IP comes from"
+msgstr "La IP del visitante proviene de"
+
+#: includes/admin/class-admin.php:882
+msgid "Automatic works for most sites, including sites behind Cloudflare. Only change it if every visitor shows the same IP below. A header is only believed when the request really comes from Cloudflare, a private network or a trusted proxy."
+msgstr "El modo automático funciona en la mayoría de sitios, incluidos los que están detrás de Cloudflare. Cámbialo solo si todos los visitantes muestran la misma IP más abajo. Una cabecera solo se considera fiable cuando la solicitud realmente proviene de Cloudflare, de una red privada o de un proxy de confianza."
+
+#: includes/admin/class-admin.php:884
+msgid "This request"
+msgstr "Esta solicitud"
+
+#: includes/admin/class-admin.php:890
+msgid "Site Shield uses"
+msgstr "Site Shield usa"
+
+#: includes/admin/class-admin.php:890
+msgid "(through Cloudflare)"
+msgstr "(a través de Cloudflare)"
+
+#: includes/admin/class-admin.php:893
+msgid "The last row should be your own public IP. If it shows a private address such as 127.0.0.1 or 10.x, add that address under Trusted proxies."
+msgstr "La última fila debería ser tu propia IP pública. Si muestra una dirección privada como 127.0.0.1 o 10.x, añade esa dirección en Proxies de confianza."
+
+#: includes/admin/class-admin.php:895
+msgid "Trusted proxies"
+msgstr "Proxies de confianza"
+
+#: includes/admin/class-admin.php:897
+msgid "Addresses of proxies between visitors and WordPress that you control: a load balancer, Sucuri, or a web server on the same machine (127.0.0.1) that passes Cloudflare’s header on. Cloudflare itself needs no entry."
+msgstr "Direcciones de proxies que controlas entre los visitantes y WordPress: un balanceador de carga, Sucuri o un servidor web en la misma máquina (127.0.0.1) que transmita la cabecera de Cloudflare. Cloudflare en sí no necesita ninguna entrada."
+
+#: includes/admin/class-admin.php:899
+msgid "Cloudflare"
+msgstr "Cloudflare"
+
+#: includes/admin/class-admin.php:900
+msgid "Cloudflare’s free plan blocks attacks before they reach your server and works alongside Site Shield."
+msgstr "El plan gratuito de Cloudflare bloquea ataques antes de que lleguen a tu servidor y funciona junto con Site Shield."
+
+#: includes/admin/class-admin.php:900
+msgid "Free Cloudflare setup guide"
+msgstr "Guía gratuita de configuración de Cloudflare"
+
+#: includes/admin/class-admin.php:905
+msgid "Save settings"
+msgstr "Guardar ajustes"
+
+#: includes/admin/class-admin.php:978
+#: includes/admin/class-admin.php:1136
+msgid "You are not allowed to do that."
+msgstr "No tienes permiso para hacer eso."
+
+#: includes/admin/class-admin.php:1030
+msgid "Settings saved."
+msgstr "Ajustes guardados."
+
+#. translators: %s: URL
+#: includes/admin/class-admin.php:1034
+#, php-format
+msgid "Your login page is now %s — bookmark it."
+msgstr "Tu página de inicio de sesión ahora es %s: añádela a tus marcadores."
+
+#: includes/admin/class-admin.php:1035
+msgid "The login address was changed."
+msgstr "Se cambió la dirección de inicio de sesión."
+
+#: includes/admin/class-admin.php:1049
+msgid "Not a valid IP."
+msgstr "IP no válida."
+
+#. translators: %d: count
+#: includes/admin/class-admin.php:1053
+#, php-format
+msgid "%d lockout lifted."
+msgid_plural "%d lockouts lifted."
+msgstr[0] "Se levantó %d bloqueo."
+msgstr[1] "Se levantaron %d bloqueos."
+
+#: includes/admin/class-admin.php:1067
+msgid "Scan started. It continues in the background; reload in a minute."
+msgstr "Análisis iniciado. Continúa en segundo plano; recarga en un minuto."
+
+#: includes/admin/class-admin.php:1068
+msgid "Scan finished."
+msgstr "Análisis terminado."
+
+#: includes/admin/class-admin.php:1081
+msgid "Accepted. It will be reported again if the file changes."
+msgstr "Aceptado. Se notificará de nuevo si el archivo cambia."
+
+#: includes/admin/class-admin.php:1081
+msgid "That finding was not found."
+msgstr "No se encontró ese hallazgo."
+
+#. translators: %d: count
+#: includes/admin/class-admin.php:1092
+#, php-format
+msgid "%d finding accepted."
+msgid_plural "%d findings accepted."
+msgstr[0] "Se aceptó %d hallazgo."
+msgstr[1] "Se aceptaron %d hallazgos."
+
+#: includes/admin/class-admin.php:1109
+msgid "The site could not reach itself to run the test (loopback request failed)."
+msgstr "El sitio no pudo conectarse consigo mismo para ejecutar la prueba (falló la solicitud de loopback)."
+
+#. translators: %s: email addresses
+#: includes/admin/class-admin.php:1125
+#, php-format
+msgid "Test alert sent to %s. If it doesn’t arrive within a few minutes, check spam, then set up an SMTP plugin so this site can send email reliably."
+msgstr "Alerta de prueba enviada a %s. Si no llega en unos minutos, revisa la carpeta de spam y luego configura un plugin SMTP para que este sitio pueda enviar correo de forma fiable."
+
+#: includes/admin/class-admin.php:1126
+msgid "WordPress couldn’t send the email. This site can’t send mail yet; set up an SMTP plugin, or alerts won’t reach you."
+msgstr "WordPress no pudo enviar el correo. Este sitio todavía no puede enviar correo; configura un plugin SMTP o las alertas no te llegarán."
+
+#: includes/admin/class-admin.php:1182
+msgid "Info"
+msgstr "Info"
+
+#: includes/admin/class-admin.php:1183
+msgid "Notice"
+msgstr "Aviso"
+
+#: includes/admin/class-admin.php:1184
+msgid "Warning"
+msgstr "Advertencia"
+
+#: includes/admin/class-admin.php:1185
+msgid "Critical"
+msgstr "Crítico"
+
+#: includes/class-alerts.php:58
+msgid "Alert limit reached"
+msgstr "Límite de alertas alcanzado"
+
+#: includes/class-alerts.php:59
+msgid "More security events happened this hour than the alert limit allows. Further emails are paused until the next hour. Check the activity log on the site for the full list."
+msgstr "Durante esta hora ocurrieron más eventos de seguridad de los que permite el límite de alertas. Los correos siguientes quedan en pausa hasta la próxima hora. Consulta el registro de actividad en el sitio para ver la lista completa."
+
+#. translators: %s: site address
+#: includes/class-alerts.php:93
+#, php-format
+msgid ""
+"This is a test from JAT Site Shield on %s.\n"
+"\n"
+"If you got it, security alerts will reach you. If it went to spam, mark it as not spam."
+msgstr ""
+"Esto es una prueba de JAT Site Shield en %s.\n"
+"\n"
+"Si lo has recibido, las alertas de seguridad te llegarán. Si fue a spam, márcalo como no spam."
+
+#. translators: 1: number of users, 2: number of activity log entries
+#: includes/class-migration.php:109
+#, php-format
+msgid "Moved settings, two-factor for %1$d user and %2$d activity log entries from Anderson Site Shield."
+msgid_plural "Moved settings, two-factor for %1$d users and %2$d activity log entries from Anderson Site Shield."
+msgstr[0] "Se migraron los ajustes, la autenticación de dos factores de %1$d usuario y %2$d entradas del registro de actividad desde Anderson Site Shield."
+msgstr[1] "Se migraron los ajustes, la autenticación de dos factores de %1$d usuarios y %2$d entradas del registro de actividad desde Anderson Site Shield."
+
+#: includes/class-request.php:25
+msgid "Automatic: the connection, or Cloudflare’s header when the request comes from Cloudflare"
+msgstr "Automático: la conexión, o la cabecera de Cloudflare cuando la solicitud proviene de Cloudflare"
+
+#: includes/class-request.php:26
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+#: includes/class-request.php:27
+msgid "Reverse proxy (X-Real-IP)"
+msgstr "Proxy inverso (X-Real-IP)"
+
+#: includes/class-request.php:28
+msgid "Reverse proxy (X-Forwarded-For, nearest hop)"
+msgstr "Proxy inverso (X-Forwarded-For, salto más cercano)"
+
+#: includes/class-settings.php:220
+msgid "Choose a login address before turning on the custom login URL."
+msgstr "Elige una dirección de inicio de sesión antes de activar la URL de inicio de sesión personalizada."
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:79
+#, php-format
+msgid "%s logged in."
+msgstr "%s inició sesión."
+
+#: includes/modules/class-activity-log.php:90
+msgid "User logged out."
+msgstr "El usuario cerró sesión."
+
+#. translators: 1: new username, 2: role, 3: who
+#: includes/modules/class-activity-log.php:124
+#, php-format
+msgid "New user %1$s created with role %2$s (%3$s)."
+msgstr "Nuevo usuario %1$s creado con el rol %2$s (%3$s)."
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:127
+#, php-format
+msgid "by %s"
+msgstr "por %s"
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:127
+msgid "self-registration or code"
+msgstr "autorregistro o código"
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:151
+#, php-format
+msgid "User %s was deleted."
+msgstr "El usuario %s fue eliminado."
+
+#. translators: 1: username, 2: old roles, 3: new role
+#: includes/modules/class-activity-log.php:180
+#, php-format
+msgid "Role of %1$s changed from %2$s to %3$s."
+msgstr "El rol de %1$s cambió de %2$s a %3$s."
+
+#. translators: 1: role, 2: username
+#: includes/modules/class-activity-log.php:207
+#, php-format
+msgid "Role %1$s added to %2$s."
+msgstr "Rol %1$s añadido a %2$s."
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:222
+#, php-format
+msgid "%s was made a super admin."
+msgstr "%s ahora es superadministrador."
+
+#. translators: 1: username, 2: old, 3: new
+#: includes/modules/class-activity-log.php:242
+#, php-format
+msgid "Email of %1$s changed from %2$s to %3$s."
+msgstr "El correo de %1$s cambió de %2$s a %3$s."
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:253
+#, php-format
+msgid "Password of %s was changed."
+msgstr "Se cambió la contraseña de %s."
+
+#. translators: %s: username
+#: includes/modules/class-activity-log.php:271
+#, php-format
+msgid "%s reset their password with an email link."
+msgstr "%s restableció su contraseña con un enlace por correo."
+
+#. translators: 1: username, 2: app name
+#: includes/modules/class-activity-log.php:291
+#, php-format
+msgid "%1$s used application password \"%2$s\"."
+msgstr "%1$s usó la contraseña de aplicación “%2$s”."
+
+#. translators: 1: app name, 2: username
+#: includes/modules/class-activity-log.php:307
+#, php-format
+msgid "Application password \"%1$s\" created for %2$s."
+msgstr "Contraseña de aplicación “%1$s” creada para %2$s."
+
+#. translators: %s: plugin
+#: includes/modules/class-activity-log.php:345
+#, php-format
+msgid "Plugin activated: %s."
+msgstr "Plugin activado: %s."
+
+#: includes/modules/class-activity-log.php:365
+msgid "JAT Site Shield was deactivated. The site is no longer protected."
+msgstr "JAT Site Shield fue desactivado. El sitio ya no está protegido."
+
+#. translators: %s: plugin
+#: includes/modules/class-activity-log.php:366
+#, php-format
+msgid "Plugin deactivated: %s."
+msgstr "Plugin desactivado: %s."
+
+#. translators: %s: plugin
+#: includes/modules/class-activity-log.php:387
+#, php-format
+msgid "Plugin deleted: %s."
+msgstr "Plugin eliminado: %s."
+
+#. translators: 1: plugin or theme, 2: name
+#: includes/modules/class-activity-log.php:429
+#, php-format
+msgid "New %1$s installed: %2$s."
+msgstr "Nuevo %1$s instalado: %2$s."
+
+#. translators: 1: plugin or theme, 2: name
+#: includes/modules/class-activity-log.php:431
+#, php-format
+msgid "%1$s updated: %2$s."
+msgstr "%1$s actualizado: %2$s."
+
+#. translators: 1: old, 2: new
+#: includes/modules/class-activity-log.php:451
+#, php-format
+msgid "Theme changed from %1$s to %2$s."
+msgstr "El tema cambió de %1$s a %2$s."
+
+#. translators: %s: theme
+#: includes/modules/class-activity-log.php:467
+#, php-format
+msgid "Theme deleted: %s."
+msgstr "Tema eliminado: %s."
+
+#. translators: %s: version
+#: includes/modules/class-activity-log.php:477
+#, php-format
+msgid "WordPress updated to %s."
+msgstr "WordPress actualizado a %s."
+
+#. translators: 1: option, 2: old, 3: new
+#: includes/modules/class-activity-log.php:510
+#, php-format
+msgid "Setting %1$s changed from \"%2$s\" to \"%3$s\"."
+msgstr "El ajuste %1$s cambió de “%2$s” a “%3$s”."
+
+#. translators: %s: setting keys
+#: includes/modules/class-activity-log.php:552
+#, php-format
+msgid "Site Shield settings changed. Turned off: %s."
+msgstr "Ajustes de Site Shield modificados. Desactivados: %s."
+
+#. translators: %s: setting keys
+#: includes/modules/class-activity-log.php:554
+#, php-format
+msgid "Site Shield settings changed: %s."
+msgstr "Ajustes de Site Shield modificados: %s."
+
+#. translators: 1: number, 2: kind
+#: includes/modules/class-file-integrity.php:192
+#, php-format
+msgid "Only the first %1$d %2$s are listed."
+msgstr "Solo se muestran los primeros %1$d %2$s."
+
+#. translators: %s: summary
+#: includes/modules/class-file-integrity.php:279
+#, php-format
+msgid "File integrity scan found new issues: %s."
+msgstr "El análisis de integridad de archivos encontró nuevos problemas: %s."
+
+#: includes/modules/class-file-integrity.php:288
+msgid "File integrity scan finished with no new issues."
+msgstr "El análisis de integridad de archivos terminó sin problemas nuevos."
+
+#: includes/modules/class-file-integrity.php:302
+msgid "Modified core file"
+msgstr "Archivo del núcleo modificado"
+
+#: includes/modules/class-file-integrity.php:303
+msgid "Missing core file"
+msgstr "Archivo del núcleo ausente"
+
+#: includes/modules/class-file-integrity.php:304
+msgid "Not part of WordPress"
+msgstr "No forma parte de WordPress"
+
+#: includes/modules/class-file-integrity.php:305
+msgid "Left over from an old update"
+msgstr "Sobrante de una actualización antigua"
+
+#: includes/modules/class-file-integrity.php:306
+msgid "Modified plugin file"
+msgstr "Archivo de plugin modificado"
+
+#: includes/modules/class-file-integrity.php:307
+msgid "Not part of the plugin"
+msgstr "No forma parte del plugin"
+
+#: includes/modules/class-file-integrity.php:308
+msgid "PHP file in uploads"
+msgstr "Archivo PHP en uploads"
+
+#: includes/modules/class-file-integrity.php:309
+msgid "Unexpected PHP in wp-content"
+msgstr "PHP inesperado en wp-content"
+
+#: includes/modules/class-file-integrity.php:310
+msgid "New PHP file since last scan"
+msgstr "Archivo PHP nuevo desde el último análisis"
+
+#: includes/modules/class-file-integrity.php:311
+msgid "PHP file changed since last scan"
+msgstr "Archivo PHP modificado desde el último análisis"
+
+#: includes/modules/class-file-integrity.php:316
+msgid "modified core files"
+msgstr "archivos del núcleo modificados"
+
+#: includes/modules/class-file-integrity.php:317
+msgid "missing core files"
+msgstr "archivos del núcleo ausentes"
+
+#: includes/modules/class-file-integrity.php:318
+msgid "unknown files in core folders"
+msgstr "archivos desconocidos en carpetas del núcleo"
+
+#: includes/modules/class-file-integrity.php:319
+msgid "files left over from older WordPress versions"
+msgstr "archivos sobrantes de versiones antiguas de WordPress"
+
+#: includes/modules/class-file-integrity.php:320
+msgid "modified plugin files"
+msgstr "archivos de plugin modificados"
+
+#: includes/modules/class-file-integrity.php:321
+msgid "unknown PHP files in plugins"
+msgstr "archivos PHP desconocidos en plugins"
+
+#: includes/modules/class-file-integrity.php:322
+msgid "PHP files in uploads"
+msgstr "archivos PHP en uploads"
+
+#: includes/modules/class-file-integrity.php:323
+msgid "unexpected PHP files in wp-content"
+msgstr "archivos PHP inesperados en wp-content"
+
+#: includes/modules/class-file-integrity.php:324
+msgid "new PHP files in themes, mu-plugins or custom plugins"
+msgstr "archivos PHP nuevos en temas, mu-plugins o plugins personalizados"
+
+#: includes/modules/class-file-integrity.php:325
+msgid "changed PHP files in themes, mu-plugins or custom plugins"
+msgstr "archivos PHP modificados en temas, mu-plugins o plugins personalizados"
+
+#. translators: %s: path
+#: includes/modules/class-file-integrity.php:349
+#, php-format
+msgid "File integrity finding accepted: %s."
+msgstr "Hallazgo de integridad de archivos aceptado: %s."
+
+#. translators: %d: count
+#: includes/modules/class-file-integrity.php:380
+#, php-format
+msgid "All %d open file integrity findings were accepted at once."
+msgstr "Se aceptaron de una vez los %d hallazgos abiertos de integridad de archivos."
+
+#: includes/modules/class-file-integrity.php:498
+msgid "Could not download the official WordPress checksums, so core files were not checked this time."
+msgstr "No se pudieron descargar las sumas de verificación oficiales de WordPress, así que esta vez no se comprobaron los archivos del núcleo."
+
+#: includes/modules/class-file-integrity.php:533
+msgid "Listed by WordPress as removed in an older update; safe to delete."
+msgstr "WordPress lo indica como eliminado en una actualización anterior; se puede borrar sin riesgo."
+
+#: includes/modules/class-file-integrity.php:547
+msgid "PHP file in the site root that is not part of WordPress. Check what installed it."
+msgstr "Archivo PHP en la raíz del sitio que no forma parte de WordPress. Comprueba qué lo instaló."
+
+#: includes/modules/class-file-integrity.php:724
+msgid "Not from WordPress.org, so compared with the previous scan instead of official checksums."
+msgstr "No procede de WordPress.org, así que se compara con el análisis anterior en lugar de con sumas de verificación oficiales."
+
+#: includes/modules/class-file-integrity.php:729
+msgid "Could not download checksums this time."
+msgstr "Esta vez no se pudieron descargar las sumas de verificación."
+
+#: includes/modules/class-file-integrity.php:865
+msgid "PHP files do not belong in uploads. Inspect it with JAT Shell Scanner before deleting."
+msgstr "Los archivos PHP no deben estar en uploads. Inspecciónalo con JAT Shell Scanner antes de borrarlo."
+
+#: includes/modules/class-file-integrity.php:896
+msgid "Not a WordPress drop-in. Check what put it here."
+msgstr "No es un drop-in de WordPress. Comprueba qué lo puso aquí."
+
+#: includes/modules/class-file-integrity.php:951
+msgid "Baseline recorded on this scan."
+msgstr "Referencia registrada en este análisis."
+
+#: includes/modules/class-hardening.php:109
+msgid "Blocked a username scan (?author=)."
+msgstr "Se bloqueó un escaneo de nombres de usuario (?author=)."
+
+#: includes/modules/class-hardening.php:130
+msgid "Sorry, you are not allowed to list users."
+msgstr "Lo sentimos, no tienes permiso para listar usuarios."
+
+#. translators: %d: minutes
+#: includes/modules/class-login-protection.php:138
+#, php-format
+msgid "<strong>Error:</strong> Too many failed login attempts. Try again in %d minutes."
+msgstr "<strong>Error:</strong> Demasiados intentos de inicio de sesión fallidos. Inténtalo de nuevo en %d minutos."
+
+#. translators: %s: username
+#: includes/modules/class-login-protection.php:177
+#, php-format
+msgid "Failed login for \"%s\"."
+msgstr "Inicio de sesión fallido de “%s”."
+
+#. translators: 1: IP, 2: minutes
+#: includes/modules/class-login-protection.php:212
+#, php-format
+msgid "Locked out %1$s for %2$d minutes after repeated failed logins."
+msgstr "Se bloqueó %1$s durante %2$d minutos tras varios inicios de sesión fallidos."
+
+#. translators: %s: username
+#: includes/modules/class-login-protection.php:246
+#, php-format
+msgid "50 failed logins for \"%s\" from many IPs in the last hour. Make sure this account has a strong password and two-factor."
+msgstr "50 inicios de sesión fallidos de “%s” desde muchas IP en la última hora. Asegúrate de que esta cuenta tenga una contraseña segura y dos factores."
+
+#. translators: %s: lost password URL
+#: includes/modules/class-login-protection.php:286
+#, php-format
+msgid "<strong>Error:</strong> The username, email address or password is incorrect. <a href=\"%s\">Lost your password?</a>"
+msgstr "<strong>Error:</strong> El nombre de usuario, el correo electrónico o la contraseña son incorrectos. <a href=\"%s\">¿Has perdido tu contraseña?</a>"
+
+#: includes/modules/class-login-protection.php:310
+msgid "Password reset requested for an unknown account."
+msgstr "Se solicitó restablecer la contraseña de una cuenta desconocida."
+
+#. translators: %s: IP or "all"
+#: includes/modules/class-login-protection.php:369
+#, php-format
+msgid "Login lockout lifted for %s."
+msgstr "Bloqueo de inicio de sesión levantado para %s."
+
+#: includes/modules/class-login-url.php:85
+msgid "The login address must be at least 4 characters."
+msgstr "La dirección de inicio de sesión debe tener al menos 4 caracteres."
+
+#: includes/modules/class-login-url.php:88
+msgid "That login address is reserved by WordPress or too easy to guess. Pick another."
+msgstr "WordPress reserva esa dirección de inicio de sesión o es demasiado fácil de adivinar. Elige otra."
+
+#: includes/modules/class-login-url.php:92
+msgid "A page or post already uses that address. Pick another."
+msgstr "Una página o entrada ya usa esa dirección. Elige otra."
+
+#: includes/modules/class-login-url.php:163
+msgid "Blocked a request to wp-login.php (custom login URL is on)."
+msgstr "Se bloqueó una solicitud a wp-login.php (la URL de inicio de sesión personalizada está activada)."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:147
+#, php-format
+msgid "Ended a session for %s that skipped two-factor (a login made outside the normal login form)."
+msgstr "Se cerró una sesión de %s que se saltó la autenticación de dos factores (un inicio de sesión hecho fuera del formulario normal)."
+
+#: includes/modules/class-two-factor.php:206
+msgid "Your two-factor step expired or had too many wrong codes. Sign in again."
+msgstr "Tu paso de dos factores caducó o tuvo demasiados códigos incorrectos. Inicia sesión de nuevo."
+
+#. translators: 1: username, 2: reason
+#: includes/modules/class-two-factor.php:296
+#, php-format
+msgid "Two-factor was reset for %1$s (%2$s)."
+msgstr "Se restableció la autenticación de dos factores de %1$s (%2$s)."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:386
+#, php-format
+msgid "Two-factor secret for %s cannot be decrypted (encryption key missing or changed). Login refused; reset two-factor for the user."
+msgstr "No se puede descifrar el secreto de dos factores de %s (falta la clave de cifrado o ha cambiado). Inicio de sesión rechazado; restablece la autenticación de dos factores del usuario."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:387
+msgid "<strong>Error:</strong> Two-factor for this account needs to be reset by an administrator."
+msgstr "<strong>Error:</strong> Un administrador debe restablecer la autenticación de dos factores de esta cuenta."
+
+#: includes/modules/class-two-factor.php:397
+msgid "This account uses two-factor authentication and cannot sign in over XML-RPC. Use an application password."
+msgstr "Esta cuenta usa autenticación de dos factores y no puede iniciar sesión por XML-RPC. Usa una contraseña de aplicación."
+
+#: includes/modules/class-two-factor.php:403
+msgid "Two-factor authentication is required. Sign in from the login page."
+msgstr "Se requiere autenticación de dos factores. Inicia sesión desde la página de inicio de sesión."
+
+#: includes/modules/class-two-factor.php:481
+msgid "<strong>Error:</strong> Too many failed login attempts from your network. Try again later."
+msgstr "<strong>Error:</strong> Demasiados intentos de inicio de sesión fallidos desde tu red. Inténtalo de nuevo más tarde."
+
+#: includes/modules/class-two-factor.php:485
+msgid "<strong>Error:</strong> Too many wrong codes for this account. Try again in an hour."
+msgstr "<strong>Error:</strong> Demasiados códigos incorrectos para esta cuenta. Inténtalo de nuevo en una hora."
+
+#: includes/modules/class-two-factor.php:491
+msgid "<strong>Error:</strong> The form expired. Enter the newest code again."
+msgstr "<strong>Error:</strong> El formulario caducó. Introduce de nuevo el código más reciente."
+
+#: includes/modules/class-two-factor.php:497
+msgid "<strong>Error:</strong> Another attempt is in progress. Try again in a moment."
+msgstr "<strong>Error:</strong> Hay otro intento en curso. Inténtalo de nuevo en un momento."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:520
+#, php-format
+msgid "%s signed in with a backup code."
+msgstr "%s inició sesión con un código de respaldo."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:521
+#, php-format
+msgid "%s passed two-factor."
+msgstr "%s superó la autenticación de dos factores."
+
+#: includes/modules/class-two-factor.php:537
+msgid "You have logged in successfully."
+msgstr "Has iniciado sesión correctamente."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:561
+#, php-format
+msgid "Someone entered the correct password for %s but failed two-factor 3 times. The password may be known to an attacker; change it."
+msgstr "Alguien introdujo la contraseña correcta de %s pero falló la autenticación de dos factores 3 veces. Un atacante podría conocer la contraseña; cámbiala."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:568
+#, php-format
+msgid "Wrong two-factor code for %s."
+msgstr "Código de dos factores incorrecto para %s."
+
+#: includes/modules/class-two-factor.php:585
+msgid "<strong>Error:</strong> That code is not correct. Try the newest code in your app."
+msgstr "<strong>Error:</strong> Ese código no es correcto. Prueba con el código más reciente de tu aplicación."
+
+#: includes/modules/class-two-factor.php:612
+msgid "Enter the 6-digit code from your authenticator app, or one of your backup codes."
+msgstr "Introduce el código de 6 dígitos de tu aplicación de autenticación, o uno de tus códigos de respaldo."
+
+#: includes/modules/class-two-factor.php:614
+msgid "Authentication code"
+msgstr "Código de autenticación"
+
+#: includes/modules/class-two-factor.php:624
+msgid "Verify"
+msgstr "Verificar"
+
+#: includes/modules/class-two-factor.php:651
+msgid "Set up two-factor authentication first."
+msgstr "Configura primero la autenticación de dos factores."
+
+#: includes/modules/class-two-factor.php:691
+msgid "Set up two-factor authentication before using the API."
+msgstr "Configura la autenticación de dos factores antes de usar la API."
+
+#: includes/modules/class-two-factor.php:747
+msgid "Two-factor is on. Save your backup codes below — this is the only time they are shown."
+msgstr "La autenticación de dos factores está activada. Guarda tus códigos de respaldo a continuación: es la única vez que se muestran."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:748
+#, php-format
+msgid "%s turned on two-factor."
+msgstr "%s activó la autenticación de dos factores."
+
+#: includes/modules/class-two-factor.php:750
+msgid "That code did not match. Check that your phone’s clock is set automatically and try the newest code."
+msgstr "Ese código no coincidió. Comprueba que el reloj de tu teléfono esté en modo automático e inténtalo con el código más reciente."
+
+#: includes/modules/class-two-factor.php:755
+msgid "New backup codes are below. Your old codes no longer work."
+msgstr "A continuación tienes nuevos códigos de respaldo. Los anteriores ya no funcionan."
+
+#. translators: %s: username
+#: includes/modules/class-two-factor.php:756
+#, php-format
+msgid "%s made new backup codes."
+msgstr "%s generó nuevos códigos de respaldo."
+
+#: includes/modules/class-two-factor.php:758
+msgid "Enter a current code from your authenticator app to make new backup codes."
+msgstr "Introduce un código actual de tu aplicación de autenticación para generar nuevos códigos de respaldo."
+
+#: includes/modules/class-two-factor.php:762
+msgid "Your role requires two-factor, so it can’t be turned off. To move to a new phone, ask another administrator to reset it, then set it up again."
+msgstr "Tu rol exige la autenticación de dos factores, por lo que no se puede desactivar. Para cambiar a un teléfono nuevo, pide a otro administrador que la restablezca y luego vuelve a configurarla."
+
+#: includes/modules/class-two-factor.php:764
+msgid "turned off by the user"
+msgstr "desactivada por el usuario"
+
+#: includes/modules/class-two-factor.php:766
+msgid "Two-factor is off."
+msgstr "La autenticación de dos factores está desactivada."
+
+#: includes/modules/class-two-factor.php:768
+msgid "Enter a current code from your authenticator app to turn two-factor off."
+msgstr "Introduce un código actual de tu aplicación de autenticación para desactivar la autenticación de dos factores."
+
+#: includes/modules/class-two-factor.php:784
+msgid "Copied"
+msgstr "Copiado"
+
+#: includes/modules/class-two-factor.php:791
+msgid "Your account needs two-factor authentication before you can use the dashboard. It takes about a minute."
+msgstr "Tu cuenta necesita autenticación de dos factores antes de que puedas usar el escritorio. Lleva alrededor de un minuto."
+
+#: includes/modules/class-two-factor.php:802
+msgid "Backup codes"
+msgstr "Códigos de respaldo"
+
+#: includes/modules/class-two-factor.php:803
+msgid "Each code works once. Keep them in your password manager, not on your phone."
+msgstr "Cada código funciona una sola vez. Guárdalos en tu gestor de contraseñas, no en el teléfono."
+
+#: includes/modules/class-two-factor.php:805
+msgid "Copy codes"
+msgstr "Copiar códigos"
+
+#: includes/modules/class-two-factor.php:811
+msgid "1. Scan this code"
+msgstr "1. Escanea este código"
+
+#: includes/modules/class-two-factor.php:812
+msgid "Use an authenticator app such as 1Password, Google Authenticator, Microsoft Authenticator or Authy."
+msgstr "Usa una aplicación de autenticación como 1Password, Google Authenticator, Microsoft Authenticator o Authy."
+
+#: includes/modules/class-two-factor.php:813
+msgid "QR code for your authenticator app"
+msgstr "Código QR para tu aplicación de autenticación"
+
+#: includes/modules/class-two-factor.php:814
+msgid "Can’t scan? Enter this key instead:"
+msgstr "¿No puedes escanear? Introduce esta clave:"
+
+#: includes/modules/class-two-factor.php:816
+msgid "2. Enter the code it shows"
+msgstr "2. Introduce el código que muestra"
+
+#: includes/modules/class-two-factor.php:821
+msgid "Turn on two-factor"
+msgstr "Activar dos factores"
+
+#: includes/modules/class-two-factor.php:826
+msgid "Two-factor is on for your account."
+msgstr "La autenticación de dos factores está activada en tu cuenta."
+
+#. translators: %d: number of codes
+#: includes/modules/class-two-factor.php:831
+#, php-format
+msgid "You have %d unused backup code."
+msgid_plural "You have %d unused backup codes."
+msgstr[0] "Tienes %d código de respaldo sin usar."
+msgstr[1] "Tienes %d códigos de respaldo sin usar."
+
+#: includes/modules/class-two-factor.php:838
+msgid "Current app code"
+msgstr "Código actual de la aplicación"
+
+#: includes/modules/class-two-factor.php:841
+msgid "Make new backup codes"
+msgstr "Generar nuevos códigos de respaldo"
+
+#: includes/modules/class-two-factor.php:843
+msgid "Turn off two-factor"
+msgstr "Desactivar dos factores"
+
+#: includes/modules/class-two-factor.php:864
+msgid "Status"
+msgstr "Estado"
+
+#: includes/modules/class-two-factor.php:868
+msgid "On"
+msgstr "Activado"
+
+#: includes/modules/class-two-factor.php:869
+msgid "Off — required for this role"
+msgstr "Desactivado — obligatorio para este rol"
+
+#: includes/modules/class-two-factor.php:869
+msgid "Off"
+msgstr "Desactivado"
+
+#: includes/modules/class-two-factor.php:872
+msgid "Manage"
+msgstr "Gestionar"
+
+#: includes/modules/class-two-factor.php:872
+msgid "Set up"
+msgstr "Configurar"
+
+#: includes/modules/class-two-factor.php:874
+msgid "Reset two-factor for this user (they will set it up again at next login)"
+msgstr "Restablecer la autenticación de dos factores de este usuario (la configurará de nuevo en su próximo inicio de sesión)"
+
+#. translators: %s: admin username
+#: includes/modules/class-two-factor.php:899
+#, php-format
+msgid "reset by %s"
+msgstr "restablecida por %s"
+
+#: includes/admin/class-admin.php:203
+msgid "The last test found the server doesn't refuse PHP requests in uploads. It may ignore .htaccess (nginx); ask your host to block PHP in wp-content/uploads."
+msgstr "La última prueba mostró que el servidor no rechaza las solicitudes PHP en uploads. Puede que ignore .htaccess (nginx); pide a tu proveedor de hosting que bloquee PHP en wp-content/uploads."
+
+#: includes/admin/class-admin.php:250
+msgid "Set with JATSS_SECRET_KEY in wp-config.php. Keep a copy with your backups."
+msgstr "Definida con JATSS_SECRET_KEY en wp-config.php. Guarda una copia con tus copias de seguridad."
+
+#. translators: %s: code to add to wp-config.php
+#: includes/admin/class-admin.php:253
+msgid "Optional: the key is in the database, so a stolen database backup includes it. To keep it out, add %s to wp-config.php with 64 random characters. Existing two-factor setups keep working."
+msgstr "Opcional: la clave está en la base de datos, así que una copia de seguridad robada de la base de datos la incluye. Para mantenerla fuera, añade %s a wp-config.php con 64 caracteres aleatorios. Las configuraciones de dos factores existentes siguen funcionando."
+
+#: includes/admin/class-admin.php:254
+msgid "No key could be stored, so secrets fall back to the WordPress salts and break if they’re changed. Add JATSS_SECRET_KEY to wp-config.php."
+msgstr "No se pudo guardar ninguna clave, así que los secretos recurren a las salts de WordPress y dejan de funcionar si se cambian. Añade JATSS_SECRET_KEY a wp-config.php."
+
+#: includes/admin/class-admin.php:834
+msgid "Last test: the server refuses PHP requests in uploads."
+msgstr "Última prueba: el servidor rechaza las solicitudes PHP en uploads."
+
+#: includes/admin/class-admin.php:835
+msgid "Last test: the server does not refuse PHP requests in uploads!"
+msgstr "Última prueba: ¡el servidor no rechaza las solicitudes PHP en uploads!"
+
+#: includes/admin/class-admin.php:1104
+msgid "Test showed the server does not refuse PHP requests in the uploads folder."
+msgstr "La prueba mostró que el servidor no rechaza las solicitudes PHP en la carpeta uploads."
+
+#: includes/admin/class-admin.php:1107
+msgid "The server refuses PHP requests in uploads."
+msgstr "El servidor rechaza las solicitudes PHP en uploads."
+
+#: includes/admin/class-admin.php:1108
+msgid "The server does not refuse PHP requests in uploads. It is probably ignoring .htaccess; ask your host to block PHP in wp-content/uploads."
+msgstr "El servidor no rechaza las solicitudes PHP en uploads. Probablemente está ignorando .htaccess; pide a tu proveedor de hosting que bloquee PHP en wp-content/uploads."
