@@ -13,7 +13,7 @@
 ![Plugin Check: passing](https://img.shields.io/badge/Plugin%20Check-passing-0a6a5c)
 [![License: GPL v2 or later](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
 
-**Version 1.0.2** · [Changelog](CHANGELOG.md) · [Roadmap](ROADMAP.md) · [Free Cloudflare setup guide](docs/cloudflare.md)
+**Version 1.1.1** · [Changelog](CHANGELOG.md) · [Roadmap](ROADMAP.md) · [Free Cloudflare setup guide](docs/cloudflare.md)
 
 Free · no paid version · no sign-up · nothing sent to us
 
@@ -84,14 +84,14 @@ Updates come through the WordPress.org plugin directory like any other plugin.
 
 1. Activate and enroll in two-factor yourself.
 2. **Settings → Login protection:** turn on **Move the login page**, pick an address that isn't easy to guess, and save. Bookmark it and put it in your password manager.
-3. **Settings → Hardening:** click **Test it now** under "Block PHP in the uploads folder". If PHP still runs, the server ignores `.htaccess` (nginx); ask the host to block PHP in `wp-content/uploads`.
+3. **Settings → Hardening:** click **Test it now** under "Block PHP in the uploads folder". If the server doesn't refuse the request, it ignores `.htaccess` (nginx); ask the host to block PHP in `wp-content/uploads`.
 4. **Settings → Monitoring and alerts:** add your agency's alert address, then **Send a test alert**.
 5. Put the site behind Cloudflare's free plan with the [free Cloudflare setup guide](docs/cloudflare.md).
 6. Run a file integrity scan and accept anything that's expected.
 
 **Things to know**
 
-- **Back up the two-factor key.** Secrets are encrypted with `wp-content/jatss-key.php`, created on activation. Include it in backups and migrations; if it's lost, every user's two-factor must be reset. On sites with several servers, or a read-only `wp-content`, put `define( 'JATSS_SECRET_KEY', '…at least 32 random characters…' );` in `wp-config.php` before anyone enrolls.
+- **Keep the two-factor key out of the database (optional).** Secrets are encrypted with a random key created on activation and kept in the database, so it travels with backups and migrations. For extra protection against a leaked database backup, put `define( 'JATSS_SECRET_KEY', '…64 random characters…' );` in `wp-config.php` (the same value on every server) and keep a copy with your backups. Existing two-factor setups move to the new key at their next login. Sites upgraded from 1.0 or 1.1 can delete the old `wp-content/jatss-key.php` once that has happened; its key is carried over automatically.
 - **Visitor login links.** The custom login address is only shown to people already on the login page or logged in. Login links a theme shows to logged-out visitors ("Log in to reply") keep pointing at `wp-login.php` and return "Not Found". On membership sites, link to the new address yourself or leave this feature off.
 
 ## Cloudflare
@@ -163,7 +163,7 @@ Every event goes through one function, `JATSiteShield\Event_Log::log()`, which f
 | Constant | Use |
 |---|---|
 | `JATSS_SAFE_MODE` | `true` pauses the custom login address, two-factor and lockouts. |
-| `JATSS_SECRET_KEY` | Your own two-factor encryption key (at least 32 characters) instead of `wp-content/jatss-key.php`. |
+| `JATSS_SECRET_KEY` | Your own two-factor encryption key (at least 32 characters), kept in `wp-config.php` instead of the database. |
 
 ## Privacy and external services
 

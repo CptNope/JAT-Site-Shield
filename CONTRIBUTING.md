@@ -17,7 +17,7 @@ Use the [bug report form](https://github.com/CptNope/JAT-Site-Shield/issues/new?
 - the steps to make it happen, and what you expected instead
 - matching entries from **Site Shield → Activity log** and from `wp-content/debug.log`
 
-Remove passwords, two-factor secrets, backup codes, the contents of `jatss-key.php`, and anything else private before posting.
+Remove passwords, two-factor secrets, backup codes, your `JATSS_SECRET_KEY`, and anything else private before posting.
 
 ## Setting up for development
 

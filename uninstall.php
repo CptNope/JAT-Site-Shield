@@ -46,6 +46,8 @@ global $wpdb;
 $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE 'jatss\\_%'" ); // phpcs:ignore WordPress.DB
 
 // The two-factor key is useless once the secrets are gone.
+delete_site_option( 'jatss_secret_key' );
+// Key file written by versions before 1.1.1.
 if ( file_exists( WP_CONTENT_DIR . '/jatss-key.php' ) ) {
 	wp_delete_file( WP_CONTENT_DIR . '/jatss-key.php' );
 }

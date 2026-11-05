@@ -198,9 +198,9 @@ class Admin {
 		);
 		$checks[]    = array(
 			'label' => __( 'PHP blocked in uploads', 'jat-site-shield' ),
-			'ok'    => $s['harden_uploads_php'] && 'executes' !== get_option( 'jatss_uploads_test' ),
-			'note'  => 'executes' === get_option( 'jatss_uploads_test' )
-				? __( 'Test showed PHP still runs in uploads. Your server may ignore .htaccess (nginx); ask your host to block it.', 'jat-site-shield' )
+			'ok'    => $s['harden_uploads_php'] && ! in_array( get_option( 'jatss_uploads_test' ), array( 'open', 'executes' ), true ),
+			'note'  => in_array( get_option( 'jatss_uploads_test' ), array( 'open', 'executes' ), true )
+				? __( 'The last test found the server doesn\'t refuse PHP requests in uploads. It may ignore .htaccess (nginx); ask your host to block PHP in wp-content/uploads.', 'jat-site-shield' )
 				: ( 'blocked' === get_option( 'jatss_uploads_test' ) ? __( 'Verified by a live test.', 'jat-site-shield' ) : __( 'Rules written; run the test on the Settings screen to confirm.', 'jat-site-shield' ) ),
 		);
 		$checks[]    = array(
@@ -241,15 +241,17 @@ class Admin {
 				: __( 'No scan yet.', 'jat-site-shield' ) ) . ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ? ' ' . __( 'WP-Cron is turned off on this site, so make sure a server cron job runs wp-cron.php.', 'jat-site-shield' ) : '' ),
 		);
 
-		$key_ok   = defined( 'JATSS_SECRET_KEY' ) || is_readable( Totp::key_file() );
+		$key_src  = Totp::key_source();
 		$checks[] = array(
-			'label' => __( 'Two-factor key kept outside the database', 'jat-site-shield' ),
-			'ok'    => $key_ok,
-			'note'  => defined( 'JATSS_SECRET_KEY' )
-				? __( 'Set with JATSS_SECRET_KEY in wp-config.php.', 'jat-site-shield' )
-				: ( $key_ok
-					? __( 'Stored in wp-content/jatss-key.php. Keep it in backups and migrations.', 'jat-site-shield' )
-					: __( 'wp-content isn’t writable, so secrets fall back to the WordPress salts and break if they’re changed. Add JATSS_SECRET_KEY to wp-config.php.', 'jat-site-shield' ) ),
+			'label'    => __( 'Two-factor key kept outside the database', 'jat-site-shield' ),
+			'ok'       => 'constant' === $key_src,
+			'optional' => 'none' !== $key_src,
+			'note'     => 'constant' === $key_src
+				? __( 'Set with JATSS_SECRET_KEY in wp-config.php. Keep a copy with your backups.', 'jat-site-shield' )
+				: ( 'database' === $key_src
+					/* translators: %s: code to add to wp-config.php */
+					? sprintf( __( 'Optional: the key is in the database, so a stolen database backup includes it. To keep it out, add %s to wp-config.php with 64 random characters. Existing two-factor setups keep working.', 'jat-site-shield' ), "define( 'JATSS_SECRET_KEY', '…' );" )
+					: __( 'No key could be stored, so secrets fall back to the WordPress salts and break if they’re changed. Add JATSS_SECRET_KEY to wp-config.php.', 'jat-site-shield' ) ),
 		);
 
 		$checks[] = array(
@@ -827,12 +829,15 @@ class Admin {
 						<?php
 						$test = get_option( 'jatss_uploads_test' );
 						if ( $test ) {
+							$test   = 'executes' === $test ? 'open' : $test; // Result name before 1.1.1.
 							$labels = array(
-								'blocked'  => __( 'Last test: PHP is blocked in uploads.', 'jat-site-shield' ),
-								'executes' => __( 'Last test: PHP still runs in uploads!', 'jat-site-shield' ),
-								'unknown'  => __( 'Last test could not reach the site.', 'jat-site-shield' ),
+								'blocked' => __( 'Last test: the server refuses PHP requests in uploads.', 'jat-site-shield' ),
+								'open'    => __( 'Last test: the server does not refuse PHP requests in uploads!', 'jat-site-shield' ),
+								'unknown' => __( 'Last test could not reach the site.', 'jat-site-shield' ),
 							);
-							echo '<p class="' . ( 'executes' === $test ? 'jatss-sev-critical' : 'description' ) . '">' . esc_html( $labels[ $test ] ) . '</p>';
+							if ( isset( $labels[ $test ] ) ) {
+								echo '<p class="' . ( 'open' === $test ? 'jatss-sev-critical' : 'description' ) . '">' . esc_html( $labels[ $test ] ) . '</p>';
+							}
 						}
 						?>
 						<button type="submit" class="button" form="jatss-test-uploads"><?php esc_html_e( 'Test it now', 'jat-site-shield' ); ?></button>
@@ -968,11 +973,10 @@ class Admin {
 	 *
 	 * @param string $action Nonce action.
 	 */
-	private function guard( $action ) {
+	private function require_cap() {
 		if ( ! current_user_can( self::CAP ) ) {
 			wp_die( esc_html__( 'You are not allowed to do that.', 'jat-site-shield' ), 403 );
 		}
-		check_admin_referer( $action );
 	}
 
 	/**
@@ -998,15 +1002,17 @@ class Admin {
 	 * Save settings.
 	 */
 	public function save_settings() {
-		$this->guard( 'jatss_save' );
+		$this->require_cap();
+		check_admin_referer( 'jatss_save' );
 		$input = array();
 		foreach ( array_keys( Settings::defaults() ) as $key ) {
-			if ( isset( $_POST[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-				$input[ $key ] = is_array( $_POST[ $key ] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST[ $key ] ) ) : wp_unslash( $_POST[ $key ] ); // phpcs:ignore WordPress.Security
+			if ( isset( $_POST[ $key ] ) ) {
+				// Settings::update() validates and sanitizes each value by its type.
+				$input[ $key ] = is_array( $_POST[ $key ] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST[ $key ] ) ) : wp_unslash( $_POST[ $key ] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			}
 		}
 		// Unticking every role sends nothing.
-		if ( ! isset( $_POST['twofa_required_roles'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST['twofa_required_roles'] ) ) {
 			$input['twofa_required_roles'] = array();
 		}
 
@@ -1036,8 +1042,9 @@ class Admin {
 	 * Unlock an IP.
 	 */
 	public function unlock() {
-		$this->guard( 'jatss_unlock' );
-		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$this->require_cap();
+		check_admin_referer( 'jatss_unlock' );
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
 		if ( 'all' !== $ip && ! Request::is_valid_ip_or_cidr( $ip ) ) {
 			$this->back( '', __( 'Not a valid IP.', 'jat-site-shield' ), true );
 		}
@@ -1050,7 +1057,8 @@ class Admin {
 	 * Start a scan and run the first part now.
 	 */
 	public function run_scan() {
-		$this->guard( 'jatss_scan' );
+		$this->require_cap();
+		check_admin_referer( 'jatss_scan' );
 		$fim = Plugin::instance()->module( 'fim' );
 		$fim->start_scan( 'manual' );
 		$fim->tick( 15 );
@@ -1065,8 +1073,10 @@ class Admin {
 	 * Accept a finding.
 	 */
 	public function acknowledge() {
-		$this->guard( 'jatss_ack' );
-		$path = isset( $_POST['path'] ) ? wp_unslash( $_POST['path'] ) : ''; // phpcs:ignore WordPress.Security
+		$this->require_cap();
+		check_admin_referer( 'jatss_ack' );
+		// Only compared with the stored findings; never used to open a file.
+		$path = isset( $_POST['path'] ) ? wp_unslash( $_POST['path'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$ok   = File_Integrity::acknowledge( (string) $path );
 		$this->back( '-files', $ok ? __( 'Accepted. It will be reported again if the file changes.', 'jat-site-shield' ) : __( 'That finding was not found.', 'jat-site-shield' ), ! $ok );
 	}
@@ -1075,7 +1085,8 @@ class Admin {
 	 * Accept every open finding.
 	 */
 	public function acknowledge_all() {
-		$this->guard( 'jatss_ack_all' );
+		$this->require_cap();
+		check_admin_referer( 'jatss_ack_all' );
 		$n = File_Integrity::acknowledge_all();
 		/* translators: %d: count */
 		$this->back( '-files', sprintf( _n( '%d finding accepted.', '%d findings accepted.', $n, 'jat-site-shield' ), $n ) );
@@ -1085,25 +1096,27 @@ class Admin {
 	 * Test PHP execution in uploads.
 	 */
 	public function test_uploads() {
-		$this->guard( 'jatss_test_uploads' );
+		$this->require_cap();
+		check_admin_referer( 'jatss_test_uploads' );
 		$result = Hardening::test_uploads_php();
 		update_option( 'jatss_uploads_test', $result, false );
-		if ( 'executes' === $result ) {
-			Event_Log::log( 'harden.uploads_php_executes', 'warning', __( 'Test showed PHP files can run from the uploads folder.', 'jat-site-shield' ) );
+		if ( 'open' === $result ) {
+			Event_Log::log( 'harden.uploads_php_open', 'warning', __( 'Test showed the server does not refuse PHP requests in the uploads folder.', 'jat-site-shield' ) );
 		}
 		$msgs = array(
-			'blocked'  => __( 'PHP is blocked in uploads.', 'jat-site-shield' ),
-			'executes' => __( 'PHP still runs in uploads. The server is probably ignoring .htaccess; ask your host to block PHP in wp-content/uploads.', 'jat-site-shield' ),
-			'unknown'  => __( 'The site could not reach itself to run the test (loopback request failed).', 'jat-site-shield' ),
+			'blocked' => __( 'The server refuses PHP requests in uploads.', 'jat-site-shield' ),
+			'open'    => __( 'The server does not refuse PHP requests in uploads. It is probably ignoring .htaccess; ask your host to block PHP in wp-content/uploads.', 'jat-site-shield' ),
+			'unknown' => __( 'The site could not reach itself to run the test (loopback request failed).', 'jat-site-shield' ),
 		);
-		$this->back( '-settings', $msgs[ $result ], 'executes' === $result );
+		$this->back( '-settings', $msgs[ $result ], 'open' === $result );
 	}
 
 	/**
 	 * Send a test alert email.
 	 */
 	public function test_alert() {
-		$this->guard( 'jatss_test_alert' );
+		$this->require_cap();
+		check_admin_referer( 'jatss_test_alert' );
 		$ok = \JATSiteShield\Alerts::send_test();
 		$this->back(
 			'-settings',

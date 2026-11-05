@@ -11,7 +11,7 @@ body:
         **Security problem?** Stop here and report it privately instead: [SECURITY.md](https://github.com/CptNope/JAT-Site-Shield/blob/main/SECURITY.md).
         **Locked out?** Add `define( 'JATSS_SAFE_MODE', true );` to `wp-config.php`, then come back.
 
-        Never post passwords, backup codes, your custom login address or the contents of `jatss-key.php`.
+        Never post passwords, backup codes, your custom login address or your `JATSS_SECRET_KEY`.
   - type: textarea
     id: what
     attributes:
@@ -33,7 +33,7 @@ body:
     id: plugin-version
     attributes:
       label: JAT Site Shield version
-      placeholder: "1.0.2"
+      placeholder: "1.1.1"
     validations:
       required: true
   - type: input

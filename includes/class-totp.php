@@ -160,52 +160,121 @@ class Totp {
 	}
 
 	/**
-	 * Path of the key file kept outside the database.
+	 * Network option that holds the generated key. A network option, because
+	 * on multisite the users (and their two-factor secrets) are shared by
+	 * every site.
+	 */
+	const KEY_OPTION = 'jatss_secret_key';
+
+	/**
+	 * Key file written by versions before 1.1.1. It is only read, to carry
+	 * its key over; nothing writes it any more.
 	 *
 	 * @return string
 	 */
-	public static function key_file() {
+	public static function legacy_key_file() {
 		return WP_CONTENT_DIR . '/jatss-key.php';
 	}
 
 	/**
-	 * The dedicated encryption key: the JATSS_SECRET_KEY constant if set
-	 * in wp-config.php, otherwise a random key in wp-content/jatss-key.php.
-	 * It is independent of the WordPress salts, so rotating the salts after
-	 * an incident does not break two-factor. Neither lives in the database,
-	 * so a database leak alone doesn't reveal 2FA secrets.
+	 * Read the key from the legacy file without running it.
 	 *
-	 * @param bool $create Create the key file if missing.
+	 * @return string|false Raw key, or false.
+	 */
+	private static function legacy_raw_key() {
+		$file = self::legacy_key_file();
+		if ( ! is_readable( $file ) ) {
+			return false;
+		}
+		$php = file_get_contents( $file, false, null, 0, 1024 ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		if ( is_string( $php ) && preg_match( "/return '([a-f0-9]{64})';/", $php, $m ) ) {
+			return $m[1];
+		}
+		return false;
+	}
+
+	/**
+	 * Where the key in use comes from.
+	 *
+	 * @return string 'constant' | 'database' | 'none'
+	 */
+	public static function key_source() {
+		if ( defined( 'JATSS_SECRET_KEY' ) && strlen( (string) JATSS_SECRET_KEY ) >= 32 ) {
+			return 'constant';
+		}
+		return self::dedicated_key() ? 'database' : 'none';
+	}
+
+	/**
+	 * Every dedicated key that may have encrypted a stored secret, newest
+	 * first: the JATSS_SECRET_KEY constant, the generated key, and the key
+	 * file of older versions.
+	 *
+	 * @return string[] 32-byte keys.
+	 */
+	private static function key_candidates() {
+		$keys = array();
+		if ( defined( 'JATSS_SECRET_KEY' ) && strlen( (string) JATSS_SECRET_KEY ) >= 32 ) {
+			$keys[] = hash( 'sha256', 'jatss-2fa|' . JATSS_SECRET_KEY, true );
+		}
+		$raw = get_site_option( self::KEY_OPTION );
+		if ( is_string( $raw ) && strlen( $raw ) >= 40 ) {
+			$keys[] = hash( 'sha256', 'jatss-2fa|' . $raw, true );
+		}
+		$legacy = self::legacy_raw_key();
+		if ( $legacy ) {
+			$keys[] = hash( 'sha256', 'jatss-2fa|' . $legacy, true );
+		}
+		return array_values( array_unique( $keys ) );
+	}
+
+	/**
+	 * The key used to encrypt: the JATSS_SECRET_KEY constant if set in
+	 * wp-config.php, otherwise a random key generated once and kept in the
+	 * database. It is independent of the WordPress salts, so rotating the
+	 * salts after an incident does not break two-factor. Defining the
+	 * constant keeps the key out of the database, so a database leak alone
+	 * doesn't reveal two-factor secrets.
+	 *
+	 * @param bool $create Generate the key if there is none yet.
 	 * @return string|false 32-byte key.
 	 */
 	public static function dedicated_key( $create = true ) {
-		static $key = null;
-		if ( null !== $key ) {
-			return $key;
-		}
 		if ( defined( 'JATSS_SECRET_KEY' ) && strlen( (string) JATSS_SECRET_KEY ) >= 32 ) {
-			$key = hash( 'sha256', 'jatss-2fa|' . JATSS_SECRET_KEY, true );
-			return $key;
+			return hash( 'sha256', 'jatss-2fa|' . JATSS_SECRET_KEY, true );
 		}
-		$file = self::key_file();
-		if ( is_readable( $file ) ) {
-			$raw = include $file;
-			if ( is_string( $raw ) && strlen( $raw ) >= 40 ) {
-				$key = hash( 'sha256', 'jatss-2fa|' . $raw, true );
-				return $key;
+		$raw = get_site_option( self::KEY_OPTION );
+		if ( ( ! is_string( $raw ) || strlen( $raw ) < 40 ) && $create ) {
+			// Keep the key a site already has from an older version's file, so
+			// nobody's two-factor breaks; otherwise make a new one.
+			$new = self::legacy_raw_key();
+			$new = $new ? $new : bin2hex( random_bytes( 32 ) );
+			if ( ! add_site_option( self::KEY_OPTION, $new ) ) {
+				wp_cache_delete( 'notoptions', 'options' );
 			}
+			$raw = get_site_option( self::KEY_OPTION ); // Another request may have won the race.
 		}
-		if ( $create && ! file_exists( $file ) && wp_is_writable( WP_CONTENT_DIR ) ) {
-			$raw = bin2hex( random_bytes( 32 ) );
-			$php = "<?php\n// JAT Site Shield two-factor encryption key. Keep it with your backups; without it, two-factor must be reset for every user.\nreturn '" . $raw . "';\n";
-			if ( false !== file_put_contents( $file, $php, LOCK_EX ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions
-				@chmod( $file, 0640 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions
-				$key = hash( 'sha256', 'jatss-2fa|' . $raw, true );
-				return $key;
-			}
+		if ( is_string( $raw ) && strlen( $raw ) >= 40 ) {
+			return hash( 'sha256', 'jatss-2fa|' . $raw, true );
 		}
-		$key = false;
-		return $key;
+		return false;
+	}
+
+	/**
+	 * Whether a stored secret should be encrypted again with the current key.
+	 *
+	 * @param string $stored Stored value.
+	 * @return bool
+	 */
+	public static function needs_rekey( $stored ) {
+		$current = self::dedicated_key( false );
+		if ( ! $current || ! is_string( $stored ) ) {
+			return false;
+		}
+		if ( 0 === strpos( $stored, 'v1:' ) ) {
+			return true;
+		}
+		return 0 === strpos( $stored, 'v2:' ) && false === self::open_with( $stored, $current );
 	}
 
 	/**
@@ -243,15 +312,28 @@ class Totp {
 		}
 		$prefix = substr( $stored, 0, 3 );
 		if ( 'v2:' === $prefix ) {
-			$key = self::dedicated_key( false );
-		} elseif ( 'v1:' === $prefix ) {
-			$key = self::salt_key();
-		} else {
+			foreach ( self::key_candidates() as $key ) {
+				$plain = self::open_with( $stored, $key );
+				if ( false !== $plain ) {
+					return $plain;
+				}
+			}
 			return false;
 		}
-		if ( ! $key ) {
-			return false;
+		if ( 'v1:' === $prefix ) {
+			return self::open_with( $stored, self::salt_key() );
 		}
+		return false;
+	}
+
+	/**
+	 * Open a stored secret with one key.
+	 *
+	 * @param string $stored Stored value, with its prefix.
+	 * @param string $key    32-byte key.
+	 * @return string|false
+	 */
+	private static function open_with( $stored, $key ) {
 		$raw = base64_decode( substr( $stored, 3 ), true ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
 		if ( false === $raw || strlen( $raw ) <= SODIUM_CRYPTO_SECRETBOX_NONCEBYTES ) {
 			return false;
