@@ -49,6 +49,23 @@ jobs:
           fi
           echo "Zip contents OK"
 
+  plugin-check:
+    # WordPress's own Plugin Check (the tool the WordPress.org plugin reviewers
+    # run), on the zip exactly as it ships. Covers PHP security checks that
+    # CodeQL can't, because CodeQL doesn't analyze PHP.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the plugin zip
+        run: |
+          bash bin/build-zip.sh
+          mkdir -p build && unzip -q dist/jat-site-shield.zip -d build
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: './build/jat-site-shield'
+          slug: 'jat-site-shield'
+          include-experimental: true
+
   wpcs:
     runs-on: ubuntu-latest
     steps:
