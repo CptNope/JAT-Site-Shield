@@ -33,7 +33,7 @@ While you work, add `define( 'JATSS_SAFE_MODE', true );` to `wp-config.php` if y
 
 ## Checks to run before a pull request
 
-CI runs the first two on every pull request; please run all of them locally.
+CI runs all three on every pull request; please run them locally too.
 
 ```bash
 # 1. PHP syntax on every supported version you have
