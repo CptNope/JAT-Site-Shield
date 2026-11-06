@@ -7,7 +7,8 @@
 **Lock WordPress down: login lockouts, two-factor codes, core hardening, an activity log with email alerts, and file integrity checks. One plugin, safe defaults, no account.**
 
 [![CI](https://github.com/CptNope/JAT-Site-Shield/actions/workflows/ci.yml/badge.svg)](https://github.com/CptNope/JAT-Site-Shield/actions/workflows/ci.yml)
-![WordPress.org: coming soon](https://img.shields.io/badge/WordPress.org-coming%20soon-21759b)
+[![WordPress.org version](https://img.shields.io/wordpress/plugin/v/jat-site-shield?label=WordPress.org&color=21759b)](https://wordpress.org/plugins/jat-site-shield/)
+[![Active installs](https://img.shields.io/wordpress/plugin/installs/jat-site-shield?color=21759b)](https://wordpress.org/plugins/jat-site-shield/)
 ![PHP 7.4–8.4](https://img.shields.io/badge/PHP-7.4%E2%80%938.4-777bb4)
 ![WordPress 6.4+](https://img.shields.io/badge/WordPress-6.4%2B-21759b)
 ![Plugin Check: passing](https://img.shields.io/badge/Plugin%20Check-passing-0a6a5c)
@@ -73,7 +74,7 @@ By [Jeremy Anderson Tech](https://jeremyanderson.tech/) · Pairs with [JAT Shell
 
 ## Install
 
-1. In WordPress, go to **Plugins → Add New**, search for "JAT Site Shield", then install and activate it. Until the directory listing is live, download `jat-site-shield.zip` from [Releases](https://github.com/CptNope/JAT-Site-Shield/releases) (or build it with `bash bin/build-zip.sh`) and use **Upload Plugin**.
+1. In WordPress, go to **Plugins → Add New**, search for "JAT Site Shield", then install and activate it. It's listed at [wordpress.org/plugins/jat-site-shield](https://wordpress.org/plugins/jat-site-shield/). You can also download `jat-site-shield.zip` from [Releases](https://github.com/CptNope/JAT-Site-Shield/releases) (or build it with `bash bin/build-zip.sh`) and use **Upload Plugin**.
 2. You'll be asked to set up two-factor for your administrator account. Scan the QR code, enter the code, and save your backup codes in your password manager.
 3. Open **Site Shield → Overview** and work through anything on the checklist that isn't green.
 
