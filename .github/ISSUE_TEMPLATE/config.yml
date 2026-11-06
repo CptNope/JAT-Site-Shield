@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Ask a question or get help
-    url: https://github.com/CptNope/JAT-Site-Shield/blob/main/SUPPORT.md
-    about: Where to ask how-to questions and get help with your own site.
+    url: https://wordpress.org/support/plugin/jat-site-shield/
+    about: How-to questions and help with your own site go to the WordPress.org support forum.
   - name: Hands-on help from Jeremy Anderson Tech
     url: https://jeremyanderson.tech/book-a-call/
     about: Paid help locking down or cleaning up a WordPress site.
