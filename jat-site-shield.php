@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name:       JAT Site Shield
+ * Plugin URI:        https://jeremyanderson.tech/project/jat-site-shield/
  * Description:       Locks WordPress down: login protection, two-factor authentication, core hardening, an activity log and file integrity monitoring.
  * Version:           1.1.1
  * Requires at least: 6.4
