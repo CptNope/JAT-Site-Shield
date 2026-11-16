@@ -2,12 +2,20 @@
 
 All notable changes to JAT Site Shield. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin uses [semantic versioning](https://semver.org/). The WordPress.org changelog in [readme.txt](readme.txt) is a shorter version of this file.
 
+## [1.1.2]: 2026-11-15
+
+Credits and links only; the plugin works exactly as in 1.1.1.
+
+### Added
+- Jean Berrios ([jeanberrios](https://profiles.wordpress.org/jeanberrios/) on WordPress.org, @CyberJean98 on GitHub) is listed as a contributor in `readme.txt` and credited for the Spanish translation, so he shows on the WordPress.org plugin page.
+- `Plugin URI` header, so the WordPress.org listing links to the plugin's page on jeremyanderson.tech.
+
 ## [1.1.1]: 2026-11-04
 
 Changes requested in the WordPress.org plugin review, and a Spanish translation.
 
 ### Added
-- Spanish (es_ES) translation, bundled in `languages/` (thanks to @CyberJean98). WordPress loads it through the new `Domain Path` plugin header.
+- Spanish (es_ES) translation by Jean Berrios (@CyberJean98), bundled in `languages/`. WordPress loads it through the new `Domain Path` plugin header.
 
 ### Changed
 - The two-factor encryption key is no longer written to `wp-content/jatss-key.php`. It is generated once and kept in a network option (`jatss_secret_key`), so it is shared by every site in a multisite network, like the users are. On sites that had the key file, its key is read as text (never run) and carried over, so every existing two-factor setup keeps working. `JATSS_SECRET_KEY` in `wp-config.php` still takes priority and keeps the key out of the database; secrets made with any earlier key are still read, and move to the current key at the user's next login. The overview check for the key is now optional.
@@ -83,6 +91,7 @@ First release.
 - Suggested privacy policy text. Uninstall removes all data, the two-factor key and the uploads rules.
 - Passes WordPress's Plugin Check with no errors or warnings, and the WordPress security and PHP 7.4+ compatibility sniffs in CI.
 
+[1.1.2]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.2...v1.1.1
 [1.1.0]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/CptNope/JAT-Site-Shield/compare/v1.0.1...v1.0.2
