@@ -1,10 +1,10 @@
 === JAT Site Shield ===
-Contributors: cptnope
+Contributors: cptnope, jeanberrios
 Tags: security, two-factor, login security, hardening, activity log
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -177,8 +177,13 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 
 == Changelog ==
 
+= 1.1.2 =
+* Credits: Jean Berrios (jeanberrios), who made the Spanish translation, is now listed as a contributor.
+* Added: the plugin's homepage link on WordPress.org now goes to its page on jeremyanderson.tech.
+* No changes to how the plugin works.
+
 = 1.1.1 =
-* Added: Spanish (es_ES) translation.
+* Added: Spanish (es_ES) translation by Jean Berrios.
 * Changed: the two-factor encryption key is kept in the database instead of a file in wp-content. Sites that had the old key file keep their key automatically. Define JATSS_SECRET_KEY in wp-config.php to keep the key out of the database.
 * Changed: the "Test it now" check for PHP in uploads no longer writes a test file. It asks for a made-up .php address in uploads and checks that the server refuses it.
 * Changed: resetting another user's two-factor from their profile is checked with its own nonce, and every admin action checks its nonce directly.
@@ -200,6 +205,9 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 
 == Upgrade Notice ==
 
+= 1.1.2 =
+Credits and links only; nothing in the plugin changed.
+
 = 1.1.1 =
 The plugin no longer writes files to wp-content or uploads. Existing two-factor setups keep working.
 
@@ -216,6 +224,8 @@ Restores the QR code on the two-factor setup screen.
 First release.
 
 == Credits ==
+
+The Spanish translation is by Jean Berrios ([jeanberrios](https://profiles.wordpress.org/jeanberrios/) on WordPress.org).
 
 The two-factor QR code is drawn with [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) by Kazuhiko Arase, MIT license (bundled in `assets/vendor/`).
 
