@@ -4,7 +4,7 @@ Tags: security, two-factor, login security, hardening, activity log
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -177,6 +177,9 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 
 == Changelog ==
 
+= 1.1.3 =
+* Fixed: the file integrity scan no longer reports PHP data files whose first statement is exit or die, such as Independent Analytics' iawp-click-config.php, which that plugin rewrites after every plugin update. Nothing in such a file can run. A file with any code before the exit is still reported.
+
 = 1.1.2 =
 * Credits: Jean Berrios (jeanberrios), who made the Spanish translation, is now listed as a contributor.
 * Added: the plugin's homepage link on WordPress.org now goes to its page on jeremyanderson.tech.
@@ -204,6 +207,9 @@ The activity log stores IP addresses, browser user agents and usernames for secu
 * First release: login lockouts, generic login errors, custom login address, two-factor authentication with backup codes, hardening, activity log, email alerts, file integrity scanning and WP-CLI commands.
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Stops repeat file integrity alerts for harmless PHP data files, like Independent Analytics' click tracking config.
 
 = 1.1.2 =
 Credits and links only; nothing in the plugin changed.
