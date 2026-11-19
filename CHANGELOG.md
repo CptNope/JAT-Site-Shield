@@ -2,6 +2,11 @@
 
 All notable changes to JAT Site Shield. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin uses [semantic versioning](https://semver.org/). The WordPress.org changelog in [readme.txt](readme.txt) is a shorter version of this file.
 
+## [1.1.3]: 2026-11-19
+
+### Fixed
+- File integrity no longer reports PHP data files that open with `<?php exit;` or `die` (optionally with a string or number argument) as unknown PHP in plugins or uploads. Independent Analytics writes its click tracking settings to `iawp-click-config.php` this way and deletes and rewrites it after every plugin install or update, so the scan raised a critical alert each time even after the file was accepted. Nothing after the exit can run. The exit has to be the very first statement, so a file with code planted before it, or `exit(include …)`, is still reported. WordPress core checks are unchanged.
+
 ## [1.1.2]: 2026-11-15
 
 Credits and links only; the plugin works exactly as in 1.1.1.

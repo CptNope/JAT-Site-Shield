@@ -748,7 +748,7 @@ class File_Integrity {
 				continue;
 			}
 			$rel = substr( wp_normalize_path( $file->getPathname() ), strlen( wp_normalize_path( $dir ) ) + 1 );
-			if ( ! isset( $sums[ $rel ] ) ) {
+			if ( ! isset( $sums[ $rel ] ) && ! self::is_exit_stub( $file->getPathname() ) ) {
 				$findings[] = self::finding( $file->getPathname(), 'plugin_unknown', 'critical', $plugins[ $slug ]['name'] );
 			}
 		}
@@ -859,7 +859,7 @@ class File_Integrity {
 			if ( ! preg_match( self::PHP_EXT, $abs ) ) {
 				continue;
 			}
-			if ( self::is_silence_stub( $abs ) ) {
+			if ( self::is_silence_stub( $abs ) || self::is_exit_stub( $abs ) ) {
 				continue;
 			}
 			$findings[] = self::finding( $abs, 'uploads_php', 'critical', __( 'PHP files do not belong in uploads. Inspect it with JAT Shell Scanner before deleting.', 'jat-site-shield' ) );
@@ -974,6 +974,28 @@ class File_Integrity {
 				return;
 			}
 		}
+	}
+
+	/**
+	 * A data file disguised as PHP: it opens with `<?php exit;` (or die), so nothing after runs.
+	 *
+	 * Plugins write settings this way so the file can't be read over the web, and rewrite it as
+	 * they please: Independent Analytics' iawp-click-config.php after any plugin update, Wordfence's
+	 * wflogs files. The very first statement has to be the exit, with at most a string or number
+	 * as its argument (`exit(include …)` would run code first), so a file with anything planted
+	 * before it is still reported.
+	 *
+	 * @param string $abs Path.
+	 * @return bool
+	 */
+	private static function is_exit_stub( $abs ) {
+		$fh = @fopen( $abs, 'rb' ); // phpcs:ignore WordPress.WP.AlternativeFunctions, WordPress.PHP.NoSilencedErrors
+		if ( ! $fh ) {
+			return false;
+		}
+		$head = (string) fread( $fh, 256 ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		return (bool) preg_match( '/^(?:\xEF\xBB\xBF)?<\?php[ \t\r\n]+(?:exit|die)[ \t]*(?:\([ \t]*(?:\'[^\'\\\\]*\'|"[^"\\\\$]*"|\d+)?[ \t]*\))?[ \t]*(?:;|\?>)/i', $head );
 	}
 
 	/**
